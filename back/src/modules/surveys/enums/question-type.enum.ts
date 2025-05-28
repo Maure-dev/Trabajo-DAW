@@ -1,0 +1,5 @@
+export enum QuestionType {
+  OPEN = 'OPEN',
+  SINGLE_CHOICE = 'SINGLE_CHOICE',
+  MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
+}
