@@ -101,7 +101,7 @@ Para instalar y configurar el proyecto, sigue estos pasos:
 
 ## Uso del Proyecto
 
-Una vez iniciado el proyecto, puedes acceder a la página principal en http://localhost:3000/. Si haces cambios en el proyecto, el servidor se reiniciará automáticamente.
+Una vez iniciado el proyecto, puedes acceder a la página principal en http://localhost:4200/. Si haces cambios en el proyecto, el servidor se reiniciará automáticamente.
 
 ## Licencia
 
