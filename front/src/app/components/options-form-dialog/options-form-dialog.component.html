@@ -1,0 +1,26 @@
+<div class="p-4">
+
+    <div class="flex items-center justify-center relative">
+        <h1 class="font-bold text-primary text-xl">Opciones - Pregunta 1</h1>
+        <button class="flex absolute top-0 right-0 cursor-pointer" (click)="handleCloseDialog()">
+            <i class="material-symbols-outlined text-error">clear</i>
+        </button>
+    </div>
+    <div #scrollContainer class="flex flex-col items-center mt-12 max-h-96 overflow-y-auto">
+        <div *ngFor="let option of optionQuestions(); let i = index" class="w-full flex items-center mb-4">
+            <input type="text" name="title-form-{{i}}" id="title-form-{{i}}" [value]="option.description"
+                (input)="handleSetOptionQuestion($event, i)"
+                class="w-full shadow-lg border-2 border-primary rounded-lg pl-4 py-2 placeholder:text-disabled placeholder:brightness-60"
+                placeholder="Descripción de la opción {{ i + 1 }}">
+            <button *ngIf="optionQuestions().length > 1" class="flex cursor-pointer ml-2" title="Eliminar opción"
+                (click)="handleDeleteOptionQuestion(i)">
+                <i class="material-symbols-outlined text-error !text-base">delete</i>
+            </button>
+        </div>
+    </div>
+    <button (click)="handleAddOptionQuestion()"
+        class="flex w-full items-center justify-center border-2 border-primary hover:brightness-90 bg-primary/20 py-2 rounded-lg text-primary shadow-lg cursor-pointer mb-4">
+        <i class="material-symbols-outlined mr-2 !text-base">add</i>
+        <span>Nueva pregunta</span>
+    </button>
+</div>
