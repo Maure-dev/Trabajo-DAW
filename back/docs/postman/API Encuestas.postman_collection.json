@@ -73,7 +73,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"title\": \"Preferencias de Tecnologías Backend - Edición 2025\",\n  \"questions\": [\n    {\n      \"id\": \"f51df6e7-afce-46f2-8df1-91acb812aaf0\",\n      \"text\": \"¿Cuál es tu lenguaje backend preferido?\",\n      \"type\": \"SINGLE_CHOICE\",\n      \"options\": [\n        {\n          \"id\": \"7977e815-ce6c-48a8-b244-07451cf5f8d3\",\n          \"text\": \"Node.js\"\n        },\n        {\n          \"id\": \"7422019f-b664-4013-b857-63c5ec8057eb\",\n          \"text\": \"Python (con Django/Flask)\"\n        },\n        {\n          \"id\": \"5be1da57-4501-4d85-b6a0-691fddee2b71\",\n          \"text\": \"Go\"\n        },\n        {\n          \"text\": \"C#\"\n        }\n      ]\n    },\n    {\n      \"id\": \"ddca9585-2183-4560-90d7-8388c4560202\",\n      \"text\": \"¿Con qué bases de datos has trabajado?\",\n      \"type\": \"MULTIPLE_CHOICE\",\n      \"options\": [\n        {\n          \"id\": \"42728c28-2ea3-40dd-a7e7-d0b02238e5fc\",\n          \"text\": \"PostgreSQL\"\n        },\n        {\n          \"text\": \"SQLite\"\n        }\n      ]\n    },\n    {\n      \"text\": \"¿Qué framework backend utilizas más?\",\n      \"type\": \"SINGLE_CHOICE\",\n      \"options\": [\n        {\n          \"text\": \"Express.js\"\n        },\n        {\n          \"text\": \"Django\"\n        }\n      ]\n    }\n  ]\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -105,7 +105,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"title\": \"Preferencias de Tecnologías Backend - Edición 2025\",\n  \"questions\": [\n    {\n      \"id\": \"f51df6e7-afce-46f2-8df1-91acb812aaf0\",\n      \"text\": \"¿Cuál es tu lenguaje backend preferido?\",\n      \"type\": \"SINGLE_CHOICE\",\n      \"options\": [\n        {\n          \"id\": \"7977e815-ce6c-48a8-b244-07451cf5f8d3\",\n          \"text\": \"Node.js\"\n        },\n        {\n          \"id\": \"7422019f-b664-4013-b857-63c5ec8057eb\",\n          \"text\": \"Python (con Django/Flask)\"\n        },\n        {\n          \"id\": \"5be1da57-4501-4d85-b6a0-691fddee2b71\",\n          \"text\": \"Go\"\n        },\n        {\n          \"text\": \"C#\"\n        }\n      ]\n    },\n    {\n      \"id\": \"ddca9585-2183-4560-90d7-8388c4560202\",\n      \"text\": \"¿Con qué bases de datos has trabajado?\",\n      \"type\": \"MULTIPLE_CHOICE\",\n      \"options\": [\n        {\n          \"id\": \"42728c28-2ea3-40dd-a7e7-d0b02238e5fc\",\n          \"text\": \"PostgreSQL\"\n        },\n        {\n          \"text\": \"SQLite\"\n        }\n      ]\n    },\n    {\n      \"text\": \"¿Qué framework backend utilizas más?\",\n      \"type\": \"SINGLE_CHOICE\",\n      \"options\": [\n        {\n          \"text\": \"Express.js\"\n        },\n        {\n          \"text\": \"Django\"\n        }\n      ]\n    }\n  ]\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
