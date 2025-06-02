@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Survey } from '../entities/survey.entity';
 import { CreateSurveyDto } from '../dtos/create-survey.dto';
+import { SurveyStatus } from '../enums/survey-status.enum';
 
 @Injectable()
 export class SurveysRepository {
@@ -27,6 +28,13 @@ export class SurveysRepository {
   async findByIdWithQuestions(id: string) {
     return this.surveyRepo.findOne({
       where: { id },
+      relations: ['questions', 'questions.options'],
+    });
+  }
+
+  async findByStatus (status: SurveyStatus): Promise<Survey[]> {
+    return this.surveyRepo.find({
+      where: { status },
       relations: ['questions', 'questions.options'],
     });
   }

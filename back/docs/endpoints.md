@@ -1,5 +1,111 @@
 # 📋 Encuestas API - Ejemplos de uso
 
+## 📘 Obtener encuesta (`GET /surveys/:id`)
+
+Obtiene una encuesta completa por su ID.
+
+### 🔗 Endpoint
+```
+GET /surveys/:id
+```
+
+### 🔸 Parámetros de ruta
+
+| Nombre | Tipo   | Requerido | Descripción        |
+|--------|--------|-----------|--------------------|
+| `id`   | string (UUID) | ✅        | ID único de la encuesta |
+
+### ✅ Ejemplo de request
+```
+GET /surveys/f46e2f3d-7b9d-4c99-98c6-bd2f8b98a3cd
+```
+
+### 📦 Ejemplo de respuesta `200 OK`
+```json
+{
+  "id": "f46e2f3d-7b9d-4c99-98c6-bd2f8b98a3cd",
+  "title": "Encuesta de satisfacción",
+  "status": "published",
+  "questions": [
+    {
+      "id": "1",
+      "text": "¿Cómo calificarías nuestro servicio?",
+      "type": "SINGLE_CHOICE",
+      "options": [
+        { "id": "a", "text": "Bueno" },
+        { "id": "b", "text": "Regular" },
+        { "id": "c", "text": "Malo" }
+      ]
+    },
+    {
+      "id": "2",
+      "text": "¿Comentarios adicionales?",
+      "type": "OPEN",
+      "options": []
+    }
+  ]
+}
+```
+
+### ⚠️ Posibles errores
+
+- `404 Not Found`: si no se encuentra la encuesta con ese ID.
+- `400 Bad Request`: si el ID no es un UUID válido.
+
+---
+
+## 📘 Obtener encuestas (`GET /surveys?status=...`)
+
+Obtiene todas las encuestas filtradas por estado.
+
+### 🔗 Endpoint
+```
+GET /surveys?status={status}
+```
+
+### 🔸 Parámetros de query
+
+| Nombre   | Tipo   | Requerido | Descripción                                |
+|----------|--------|-----------|--------------------------------------------|
+| `status` | string | ✅        | Estado de la encuesta (`DRAFT`, `PUBLISHED`, `CLOSED`) |
+
+### ✅ Ejemplo de request
+```
+GET /surveys?status=PUBLISHED
+```
+
+### 📦 Ejemplo de respuesta `200 OK`
+```json
+[
+  {
+    "id": "abc123",
+    "title": "Encuesta de producto",
+    "status": "PUBLISHED",
+    "questions": [
+      {
+        "id": "q1",
+        "text": "¿Qué tan útil te pareció el producto?",
+        "type": "SINGLE_CHOICE",
+        "options": [
+          { "id": "1", "text": "Muy útil" },
+          { "id": "2", "text": "Poco útil" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "def456",
+    "title": "Encuesta de soporte técnico",
+    "status": "PUBLISHED",
+    "questions": []
+  }
+]
+```
+
+### ⚠️ Posibles errores
+
+- `400 Bad Request`: si el valor de `status` no es válido (`DRAFT`, `PUBLISHED`, `CLOSED`).
+
 ## 🎯 Crear encuesta (`POST /surveys`)
 
 ```

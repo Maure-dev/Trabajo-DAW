@@ -4,6 +4,8 @@ import { UpdateSurveyDto } from '../dtos/update-survey.dto';
 import { SurveysRepository } from '../repositories/surveys.repository';
 import { Question } from '../entities/question.entity';
 import { Option } from '../entities/option.entity';
+import { Survey } from '../entities/survey.entity';
+import { SurveyStatus } from '../enums/survey-status.enum';
 
 @Injectable()
 export class SurveysService {
@@ -13,6 +15,18 @@ export class SurveysService {
 
   createSurvey(dto: CreateSurveyDto) {
     return this.surveysRepository.save(dto);
+  }
+
+  async getSurveyById (id: string): Promise<Survey> {
+    const survey = await this.surveysRepository.findByIdWithQuestions(id);
+    if (!survey) {
+      throw new NotFoundException(`Survey with id ${id} not found`);
+    }
+    return survey;
+  }
+
+  async getSurveysByStatus (status: SurveyStatus): Promise<Survey[]> {
+    return this.surveysRepository.findByStatus(status);
   }
 
   async updateSurvey(id: string, dto: UpdateSurveyDto) {
