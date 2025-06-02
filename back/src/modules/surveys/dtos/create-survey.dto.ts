@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { IsEnum, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, ValidateNested, Validate } from 'class-validator';
 import { Type } from 'class-transformer';
 import { QuestionType } from '../enums/question-type.enum';
+import { HasMinimumQuestions } from './validators/has-minimum-questions';
+import { HasOptionsIfChoiceQuestion } from './validators/has-options-if-choice-question';
 
 export class CreateOptionDto {
   @IsString()
@@ -20,6 +21,9 @@ export class CreateQuestionDto {
   @ValidateNested({ each: true })
   @Type(() => CreateOptionDto)
   options?: CreateOptionDto[];
+
+  @Validate(HasOptionsIfChoiceQuestion)
+  validateOptions: boolean;
 }
 
 export class CreateSurveyDto {
@@ -29,5 +33,6 @@ export class CreateSurveyDto {
 
   @ValidateNested({ each: true })
   @Type(() => CreateQuestionDto)
+  @Validate(HasMinimumQuestions)
   questions: CreateQuestionDto[];
 }

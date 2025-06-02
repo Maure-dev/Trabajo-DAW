@@ -85,3 +85,9 @@ npm run start:dev
 Asegurate de que PostgreSQL esté corriendo localmente y que las variables de entorno estén correctamente configuradas.
 
 ---
+
+## ⚙️ Ejemplos de Uso
+
+Para ver ejemplos detallados de cómo interactuar con los endpoints de la API, consulta la documentación de endpoints:
+
+➡️ [Documentación de Endpoints](./docs/endpoints.md)

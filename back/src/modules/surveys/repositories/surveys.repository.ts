@@ -23,4 +23,15 @@ export class SurveysRepository {
 
     return await this.surveyRepo.save(survey);
   }
+
+  async findByIdWithQuestions(id: string) {
+    return this.surveyRepo.findOne({
+      where: { id },
+      relations: ['questions', 'questions.options'],
+    });
+  }
+  
+  async saveEntity(survey: Survey) {
+    return await this.surveyRepo.save(survey);
+  }
 }
