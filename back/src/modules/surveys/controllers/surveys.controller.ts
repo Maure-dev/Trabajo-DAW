@@ -28,7 +28,7 @@ export class SurveysController {
 
   @Put(':id')
   async updateSurvey(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateSurveyDto,
   ): Promise<SurveyResponseDto> {
     const updatedSurvey = await this.surveysService.updateSurvey(id, dto);
