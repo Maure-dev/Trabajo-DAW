@@ -7,13 +7,15 @@ import { SurveysService } from './services/surveys.service';
 import { AnswersService } from './services/answers.service';
 import { SurveysRepository } from './repositories/surveys.repository';
 import { AnswersRepository } from './repositories/answers.repository';
+import { ResponsesRepository } from './repositories/responses.repository';
 import { Survey } from './entities/survey.entity';
 import { Question } from './entities/question.entity';
 import { Option } from './entities/option.entity';
 import { Answer } from './entities/answer.entity';
+import { Response } from './entities/response.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Survey, Question, Option, Answer])],
+  imports: [TypeOrmModule.forFeature([Survey, Question, Option, Answer, Response])],
   controllers: [
     SurveysController,
     AnswersController,
@@ -23,7 +25,8 @@ import { Answer } from './entities/answer.entity';
     SurveysService,
     AnswersService,
     SurveysRepository,
-    AnswersRepository
+    AnswersRepository,
+    ResponsesRepository,
   ],
 })
 export class SurveysModule {}

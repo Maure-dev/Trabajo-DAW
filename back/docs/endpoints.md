@@ -106,6 +106,8 @@ GET /surveys?status=PUBLISHED
 
 - `400 Bad Request`: si el valor de `status` no es válido (`DRAFT`, `PUBLISHED`, `CLOSED`).
 
+---
+
 ## 🎯 Crear encuesta (`POST /surveys`)
 
 ```
@@ -170,6 +172,8 @@ Cada pregunta debe tener los campos `text` y `type`.
 Si el `type` de una pregunta es `SINGLE_CHOICE` o `MULTIPLE_CHOICE`, debe incluir un array `options` con al menos dos objetos, cada uno con un campo `text`.
 
 Para preguntas de tipo `OPEN`, el campo `options` no debe estar presente.
+
+---
 
 ## 🔄 Actualizar encuesta (`PUT /surveys/:id`)
 
@@ -325,3 +329,129 @@ Los ejemplos proporcionados ilustran diferentes escenarios de actualización, de
   ]
 }
 ```
+
+---
+
+## 🗑️ Eliminar encuesta (`DELETE /surveys/:id`)
+
+Elimina una encuesta existente identificada por su ID.
+
+### 🔗 Endpoint
+
+```
+DELETE /surveys/:id
+```
+
+### 🔸 Parámetros de ruta
+
+| Nombre | Tipo | Requerido | Descripción |
+| --- | --- | --- | --- |
+| `id` | string (UUID) | ✅ | ID único de la encuesta |
+
+### ✅ Ejemplo de request
+
+```
+DELETE /surveys/f46e2f3d-7b9d-4c99-98c6-bd2f8b98a3cd
+```
+
+### 📦 Respuesta `204 No Content`
+
+No se retorna contenido en la respuesta.
+
+### ⚠️ Posibles errores
+
+- `404 Not Found`: si no se encuentra la encuesta con ese ID.
+- `400 Bad Request`: si el ID no es un UUID válido.
+
+---
+
+## 🔁 Cambiar estado de encuesta (`PATCH /surveys/:id/status`)
+
+Este endpoint cambia el estado de una encuesta de forma automática:
+
+- Si el estado actual es `DRAFT`, lo cambia a `PUBLISHED`.
+- Si el estado actual es `PUBLISHED`, lo cambia a `CLOSED`.
+- Si el estado es `CLOSED`, no realiza ningún cambio.
+
+> ⚠️ Este endpoint no recibe body. Solo opera en base al estado actual de la encuesta.
+> 
+
+### 🔗 Endpoint
+
+```bash
+PATCH /surveys/:id/status
+```
+
+### 🔸 Parámetros de ruta
+
+| Nombre | Tipo | Requerido | Descripción |
+| --- | --- | --- | --- |
+| `id` | string (UUID) | ✅ | ID único de la encuesta |
+
+### ✅ Ejemplo de request
+
+```
+PATCH /surveys/f46e2f3d-7b9d-4c99-98c6-bd2f8b98a3cd/status
+```
+
+
+### ⚠️ Posibles errores
+
+- `404 Not Found`: si no se encuentra la encuesta.
+- `400 Bad Request`: si la encuesta ya está en estado `CLOSED` y no puede cambiarse.
+
+---
+
+## 📝 Responder encuesta (`POST /answers`)
+
+Permite registrar respuestas a una encuesta publicada. Cada entrada representa la respuesta a una pregunta específica.
+
+### 🔗 Endpoint
+
+```
+POST /answers
+Content-Type: application/json
+```
+
+### 🔸 Cuerpo (JSON)
+
+Es un array de objetos, donde cada uno contiene:
+
+| Campo | Tipo | Descripción |
+| --- | --- | --- |
+| `questionId` | string (UUID) | ID de la pregunta que se está respondiendo. |
+| `text` | string (opcional) | Texto de respuesta para preguntas abiertas. |
+| `selectedOptionId` | string (UUID) | ID de la opción seleccionada (solo para preguntas de opción única). |
+| `selectedOptionIds` | array de strings | Lista de IDs de opciones seleccionadas (solo para preguntas de opción múltiple). |
+
+> ⚠️ Solo uno de los campos text, selectedOptionId o selectedOptionIds debe ser enviado por respuesta, según el tipo de la pregunta.
+> 
+
+---
+
+### ✅ Ejemplo de request
+
+```json
+[
+  {
+    "questionId": "question-open-id",
+    "text": "Me parece una excelente herramienta."
+  },
+  {
+    "questionId": "question-single-choice-id",
+    "selectedOptionId": "option-a-id"
+  },
+  {
+    "questionId": "question-multiple-choice-id",
+    "selectedOptionIds": [
+      "option-a-id",
+      "option-c-id"
+    ]
+  }
+]
+```
+
+### ⚠️ Posibles errores
+
+- `400 Bad Request`: Si el formato es inválido, se omite `questionId`, o se combinan campos incorrectamente.
+- `404 Not Found`: Si el `questionId` o alguna de las opciones seleccionadas no existen o no corresponden a la encuesta.

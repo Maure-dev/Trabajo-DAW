@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Question } from './question.entity';
 import { Option } from './option.entity';
+import { Response } from './response.entity';
 
 @Entity()
 export class Answer {
@@ -33,4 +34,8 @@ export class Answer {
     inverseJoinColumn: { name: 'option_id', referencedColumnName: 'id' },
   })
   selectedOptions?: Option[];
+
+  @ManyToOne(() => Response, (response) => response.answers, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'response_id' })
+  response: Response;
 }

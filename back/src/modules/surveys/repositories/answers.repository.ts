@@ -4,6 +4,7 @@ import { In, Repository } from 'typeorm';
 import { Answer } from '../entities/answer.entity';
 import { CreateAnswerDto } from '../dtos/create-answer.dto';
 import { Option } from '../entities/option.entity';
+import { Response } from '../entities/response.entity';
 
 @Injectable()
 export class AnswersRepository {
@@ -14,10 +15,14 @@ export class AnswersRepository {
     private readonly optionRepo: Repository<Option>,
   ) { }
 
-  async save (dto: CreateAnswerDto): Promise<Answer> {
+  /**
+   * Crea una instancia de Answer (sin persistir), asociada a una Response
+  */
+  async createWithResponse (dto: CreateAnswerDto, response: Response): Promise<Answer> {
     const answer = this.repo.create({
       question: { id: dto.questionId },
       text: dto.text,
+      response,
     });
 
     // Para SINGLE_CHOICE
@@ -31,6 +36,13 @@ export class AnswersRepository {
       answer.selectedOptions = options;
     }
 
-    return await this.repo.save(answer);
+    return answer;
+  }
+
+  /**
+   * Persiste una lista de respuestas
+  */
+  async saveAll (answers: Answer[]): Promise<Answer[]> {
+    return this.repo.save(answers);
   }
 }
