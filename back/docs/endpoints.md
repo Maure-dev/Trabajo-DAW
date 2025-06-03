@@ -394,6 +394,17 @@ PATCH /surveys/:id/status
 PATCH /surveys/f46e2f3d-7b9d-4c99-98c6-bd2f8b98a3cd/status
 ```
 
+### 🔄 Ejemplo de respuesta exitosa (`200 OK`)
+
+```json
+{
+  "id": "18cce632-6add-4daa-8358-2eb6d025d39c",
+  "title": "Backend Technology Preferences",
+  "status": "PUBLISHED",
+  "linkParticipation": "eee4a46c-2802-45ec-b6e0-9d5f6fe0b166",
+  "linkResults": "6ff0a4b5-4ce5-471f-aa53-4d6a6224f684"
+}
+```
 
 ### ⚠️ Posibles errores
 

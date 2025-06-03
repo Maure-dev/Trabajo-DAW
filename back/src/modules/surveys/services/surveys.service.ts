@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { CreateSurveyDto } from '../dtos/create-survey.dto';
 import { UpdateSurveyDto } from '../dtos/update-survey.dto';
 import { SurveysRepository } from '../repositories/surveys.repository';
@@ -87,7 +88,7 @@ export class SurveysService {
     await this.surveysRepository.delete(id);
   }
 
-  async changeSurveyStatus (id: string): Promise<void> {
+  async changeSurveyStatus (id: string): Promise<Survey> {
     const survey = await this.surveysRepository.findByIdWithQuestions(id);
 
     if (!survey) {
@@ -101,14 +102,18 @@ export class SurveysService {
     switch (survey.status) {
       case SurveyStatus.DRAFT:
         survey.status = SurveyStatus.PUBLISHED;
+        survey.linkParticipation = randomUUID();
+        survey.linkResults = randomUUID();
         break;
+
       case SurveyStatus.PUBLISHED:
         survey.status = SurveyStatus.CLOSED;
         break;
+
       case SurveyStatus.CLOSED:
         throw new BadRequestException('Survey is already closed');
     }
 
-    await this.surveysRepository.saveEntity(survey);
+    return await this.surveysRepository.saveEntity(survey);
   }
 }
