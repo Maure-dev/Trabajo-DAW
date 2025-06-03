@@ -81,7 +81,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:3000/surveys/cf5d9f73-d8e4-4846-8aa8-f87e2583695c",
+          "raw": "http://localhost:3000/surveys/735e4be2-ba6d-481c-be19-81f549a94e55",
           "protocol": "http",
           "host": [
             "localhost"
@@ -89,7 +89,7 @@
           "port": "3000",
           "path": [
             "surveys",
-            "cf5d9f73-d8e4-4846-8aa8-f87e2583695c"
+            "735e4be2-ba6d-481c-be19-81f549a94e55"
           ]
         }
       },
@@ -186,6 +186,34 @@
             "surveys",
             "213aa6e5-2f5c-4fe5-9b9f-bb8d00e940f5",
             "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Answer survey",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"questionId\": \"255df761-2b7c-4c17-a4bd-74209ed560ba\",\n    \"text\": \"Esta es mi respuesta abierta\" \n  },\n  {\n    \"questionId\": \"7fd5f399-7c6e-4a0e-ba5f-0d5ce789623b\",\n    \"selectedOptionId\": \"004a3cf5-03d9-4e95-82ad-2796c9870909\"\n  },\n  {\n    \"questionId\": \"2c1c5029-60b7-4bc0-9969-aa4c3d169ac4\",\n    \"selectedOptionIds\": [\n      \"6d56dd2f-8926-4a15-b3ed-772e054c11f7\",\n      \"1cce9a74-0fb8-4704-b4ed-369d02900548\"\n    ]\n  }\n]\n\n\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/answers",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "answers"
           ]
         }
       },
