@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Get, Put, Query, ParseUUIDPipe } from '@nestjs/common';
+import { Body, Controller, Param, Post, Get, Put, Delete, Query, ParseUUIDPipe } from '@nestjs/common';
 import { CreateSurveyDto } from '../dtos/create-survey.dto';
 import { UpdateSurveyDto } from '../dtos/update-survey.dto';
 import { SurveyResponseDto } from '../dtos/survey-response.dto';
@@ -35,5 +35,10 @@ export class SurveysController {
     return plainToInstance(SurveyResponseDto, updatedSurvey, {
       excludeExtraneousValues: true,
     })
+  }
+
+  @Delete(':id')
+  async deleteSurvey (@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    await this.surveysService.deleteSurvey(id);
   }
 }

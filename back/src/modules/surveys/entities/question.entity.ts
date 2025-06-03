@@ -18,7 +18,7 @@ export class Question {
   })
   type: QuestionType;
 
-  @ManyToOne(() => Survey, (s) => s.questions)
+  @ManyToOne(() => Survey, survey => survey.questions, { onDelete: 'CASCADE' })
   @Exclude()
   survey: Survey;
 
