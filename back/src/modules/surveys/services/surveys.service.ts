@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { CreateSurveyDto } from '../dtos/create-survey.dto';
 import { UpdateSurveyDto } from '../dtos/update-survey.dto';
 import { SurveysRepository } from '../repositories/surveys.repository';
@@ -85,5 +85,30 @@ export class SurveysService {
     }
 
     await this.surveysRepository.delete(id);
+  }
+
+  async changeSurveyStatus (id: string): Promise<void> {
+    const survey = await this.surveysRepository.findByIdWithQuestions(id);
+
+    if (!survey) {
+      throw new NotFoundException(`Survey with id ${id} not found`);
+    }
+
+    if (!survey.questions || survey.questions.length === 0) {
+      throw new BadRequestException('Survey must have at least one question to change status');
+    }
+
+    switch (survey.status) {
+      case SurveyStatus.DRAFT:
+        survey.status = SurveyStatus.PUBLISHED;
+        break;
+      case SurveyStatus.PUBLISHED:
+        survey.status = SurveyStatus.CLOSED;
+        break;
+      case SurveyStatus.CLOSED:
+        throw new BadRequestException('Survey is already closed');
+    }
+
+    await this.surveysRepository.saveEntity(survey);
   }
 }
