@@ -38,6 +38,26 @@ export class SurveysRepository {
       relations: ['questions', 'questions.options'],
     });
   }
+
+  async findByParticipationLink (link: string): Promise<Survey | null> {
+    return this.surveyRepo.findOne({
+      where: { linkParticipation: link },
+      relations: ['questions', 'questions.options'],
+    });
+  }
+
+  async findByResultsLink (link: string): Promise<Survey | null> {
+    return this.surveyRepo.findOne({
+      where: { linkResults: link },
+      relations: [
+        'questions',
+        'questions.options',
+        'questions.answers',
+        'questions.answers.selectedOption',
+        'questions.answers.selectedOptions',
+      ],
+    });
+  }
   
   async saveEntity (survey: Survey): Promise<Survey> {
     return await this.surveyRepo.save(survey);

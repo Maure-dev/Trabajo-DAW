@@ -7,6 +7,7 @@ import { ResponsesRepository } from '../repositories/responses.repository';
 import { Question } from '../entities/question.entity';
 import { Answer } from '../entities/answer.entity';
 import { Response } from '../entities/response.entity';
+import { SurveyStatus } from '../enums/survey-status.enum';
 
 @Injectable()
 export class AnswersService {
@@ -24,32 +25,59 @@ export class AnswersService {
       where: { id: dtos[0].questionId },
       relations: ['survey'],
     });
-    if (!firstQuestion) throw new NotFoundException(`Question not found: ${dtos[0].questionId}`);
+    if (!firstQuestion) {
+      throw new NotFoundException(`Question not found: ${dtos[0].questionId}`);
+    }
 
     const survey = firstQuestion.survey;
+
+    if (survey.status !== SurveyStatus.PUBLISHED) {
+      throw new BadRequestException('Cannot answer a survey that is not PUBLISHED');
+    }
 
     const response: Response = await this.responsesRepo.save({ survey });
 
     const answers: Answer[] = [];
 
     for (const dto of dtos) {
-      const question = await this.questionsRepo.findOne({ where: { id: dto.questionId } });
-      if (!question) throw new NotFoundException(`Question not found: ${dto.questionId}`);
+      const question = await this.questionsRepo.findOne({
+        where: { id: dto.questionId },
+        relations: ['survey'], // 👈 importante para validar consistencia
+      });
+      if (!question) {
+        throw new NotFoundException(`Question not found: ${dto.questionId}`);
+      }
+
+      if (question.survey.id !== survey.id) {
+        throw new BadRequestException(`All answers must belong to the same survey`);
+      }
 
       switch (question.type) {
         case 'OPEN':
-          if (!dto.text) throw new BadRequestException(`Text is required for open question ${dto.questionId}`);
+          if (!dto.text) {
+            throw new BadRequestException(
+              `Text is required for open question ${dto.questionId}`
+            );
+          }
           break;
         case 'SINGLE_CHOICE':
-          if (!dto.selectedOptionId) throw new BadRequestException(`Option ID is required for single choice question ${dto.questionId}`);
+          if (!dto.selectedOptionId) {
+            throw new BadRequestException(
+              `Option ID is required for single choice question ${dto.questionId}`
+            );
+          }
           break;
         case 'MULTIPLE_CHOICE':
           if (!dto.selectedOptionIds || dto.selectedOptionIds.length < 1) {
-            throw new BadRequestException(`At least one option is required for multiple choice question ${dto.questionId}`);
+            throw new BadRequestException(
+              `At least one option is required for multiple choice question ${dto.questionId}`
+            );
           }
           break;
         default:
-          throw new BadRequestException(`Invalid question type for question ${dto.questionId}`);
+          throw new BadRequestException(
+            `Invalid question type for question ${dto.questionId}`
+          );
       }
 
       const answer: Answer = await this.answersRepo.createWithResponse(dto, response);
@@ -62,6 +90,7 @@ export class AnswersService {
     if (!detailedResponse) {
       throw new NotFoundException(`Response not found after creation`);
     }
+
     return detailedResponse;
   }
 }

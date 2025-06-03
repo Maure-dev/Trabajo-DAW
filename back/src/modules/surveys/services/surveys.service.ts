@@ -116,4 +116,24 @@ export class SurveysService {
 
     return await this.surveysRepository.saveEntity(survey);
   }
+
+  async getSurveyForParticipation (link: string): Promise<Survey> {
+    const survey = await this.surveysRepository.findByParticipationLink(link);
+
+    if (!survey) {
+      throw new NotFoundException('Survey not found for participation');
+    }
+
+    return survey;
+  }
+
+  async getSurveyResults (link: string): Promise<Survey> {
+    const survey = await this.surveysRepository.findByResultsLink(link);
+
+    if (!survey) {
+      throw new NotFoundException('Survey not found for results');
+    }
+
+    return survey;
+  }
 }

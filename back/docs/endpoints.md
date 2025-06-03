@@ -1,5 +1,17 @@
 # 📋 Encuestas API - Ejemplos de uso
 
+# 📚 Índice
+
+- [📘 Obtener encuesta (`GET /surveys/:id`)](#-obtener-encuesta-get-surveysid)
+- [📘 Obtener encuesta por enlace de participación (`GET /surveys/participate/:id`)](#-obtener-encuesta-por-enlace-de-participación-get-surveysparticipateid)
+- [📘 Obtener encuesta por enlace de visualización (`GET /surveys/results/:id`)](#-obtener-encuesta-por-enlace-de-visualización-get-surveysresultsid)
+- [📘 Obtener encuestas (`GET /surveys?status=...`)](#-obtener-encuestas-get-surveysstatus)
+- [🎯 Crear encuesta (`POST /surveys`)](#-crear-encuesta-post-surveys)
+- [🔄 Actualizar encuesta (`PUT /surveys/:id`)](#-actualizar-encuesta-put-surveysid)
+- [🗑️ Eliminar encuesta (`DELETE /surveys/:id`)](#-eliminar-encuesta-delete-surveysid)
+- [🔁 Cambiar estado de encuesta (`PATCH /surveys/:id/status`)](#-cambiar-estado-de-encuesta-patch-surveysidstatus)
+- [📝 Responder encuesta (`POST /answers`)](#-responder-encuesta-post-answers)
+
 ## 📘 Obtener encuesta (`GET /surveys/:id`)
 
 Obtiene una encuesta completa por su ID.
@@ -45,6 +57,60 @@ GET /surveys/f46e2f3d-7b9d-4c99-98c6-bd2f8b98a3cd
     }
   ]
 }
+```
+
+### ⚠️ Posibles errores
+
+- `404 Not Found`: si no se encuentra la encuesta con ese ID.
+- `400 Bad Request`: si el ID no es un UUID válido.
+
+---
+
+## 📘 Obtener encuesta por enlace de participación (`GET /surveys/participate/:id`)
+
+Obtiene una encuesta por su ID de enlace de participación.
+
+### 🔗 Endpoint
+```
+GET /surveys/participate/:id
+```
+
+### 🔸 Parámetros de ruta
+
+| Nombre | Tipo   | Requerido | Descripción        |
+|--------|--------|-----------|--------------------|
+| `id`   | string (UUID) | ✅        | ID único del enlace |
+
+### ✅ Ejemplo de request
+```
+GET /surveys/participate/294c2a3b-30d9-4015-82a7-ffa3985f7592
+```
+
+### ⚠️ Posibles errores
+
+- `404 Not Found`: si no se encuentra la encuesta con ese ID.
+- `400 Bad Request`: si el ID no es un UUID válido.
+
+---
+
+## 📘 Obtener encuesta por enlace de visualización (`GET /surveys/results/:id`)
+
+Obtiene una encuesta con sus respuestas por su ID de enlace de visualización.
+
+### 🔗 Endpoint
+```
+GET /surveys/results/:id
+```
+
+### 🔸 Parámetros de ruta
+
+| Nombre | Tipo   | Requerido | Descripción        |
+|--------|--------|-----------|--------------------|
+| `id`   | string (UUID) | ✅        | ID único del enlace |
+
+### ✅ Ejemplo de request
+```
+GET /surveys/results/c3e07c7d-84b1-4481-b5b0-d9507d173f07
 ```
 
 ### ⚠️ Posibles errores

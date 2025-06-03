@@ -30,6 +30,16 @@ export class SurveysController {
     return plainToInstance(SurveyPublicDto, survey, { excludeExtraneousValues: true });
   }
 
+  @Get('participate/:link')
+  async getSurveyForParticipation (@Param('link') link: string) {
+    return this.surveysService.getSurveyForParticipation(link);
+  }
+
+  @Get('results/:link')
+  async getSurveyResults (@Param('link') link: string) {
+    return this.surveysService.getSurveyResults(link);
+  }
+
   @Put(':id')
   async updateSurvey(
     @Param('id', ParseUUIDPipe) id: string,
