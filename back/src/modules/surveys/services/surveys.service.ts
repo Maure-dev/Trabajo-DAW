@@ -44,10 +44,9 @@ export class SurveysService {
   
     const updatedQuestions: Question[] = [];
     
-    // Actualizar preguntas
     for (const qDto of dto.questions) {
       let question: Question;
-  
+      // Actualizar pregunta
       if (qDto.id && existingQuestions.has(qDto.id)) {
         question = existingQuestions.get(qDto.id)!;
         question.text = qDto.text;
@@ -65,7 +64,7 @@ export class SurveysService {
           text: qDto.text,
           type: qDto.type,
           options: qDto.options?.map((opt) => ({ text: opt.text })) || [],
-          survey, // asociación manual
+          survey,
         } as Question;
       }
   
@@ -76,5 +75,15 @@ export class SurveysService {
     survey.questions = updatedQuestions;
   
     return this.surveysRepository.saveEntity(survey);
+  }
+
+  async deleteSurvey (id: string): Promise<void> {
+    const found = await this.surveysRepository.findByIdWithQuestions(id);
+
+    if (!found) {
+      throw new NotFoundException(`Survey with id ${id} not found`);
+    }
+
+    await this.surveysRepository.delete(id);
   }
 }

@@ -25,7 +25,7 @@ export class SurveysRepository {
     return await this.surveyRepo.save(survey);
   }
 
-  async findByIdWithQuestions(id: string) {
+  async findByIdWithQuestions (id: string): Promise<Survey | null> {
     return this.surveyRepo.findOne({
       where: { id },
       relations: ['questions', 'questions.options'],
@@ -39,7 +39,11 @@ export class SurveysRepository {
     });
   }
   
-  async saveEntity(survey: Survey) {
+  async saveEntity (survey: Survey): Promise<Survey> {
     return await this.surveyRepo.save(survey);
+  }
+
+  async delete (id: string): Promise<void> {
+    await this.surveyRepo.delete(id);
   }
 }

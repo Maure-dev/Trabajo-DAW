@@ -10,7 +10,7 @@ export class Option {
   @Column()
   text: string;
 
-  @ManyToOne(() => Question, (q) => q.options)
+  @ManyToOne(() => Question, question => question.options, { onDelete: 'CASCADE' })
   @Exclude()
   question: Question;
 }
