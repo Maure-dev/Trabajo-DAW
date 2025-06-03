@@ -3,6 +3,7 @@ import { Survey } from './survey.entity';
 import { Option } from './option.entity';
 import { QuestionType } from '../enums/question-type.enum';
 import { Exclude } from 'class-transformer';
+import { Answer } from './answer.entity';
 
 @Entity()
 export class Question {
@@ -24,4 +25,7 @@ export class Question {
 
   @OneToMany(() => Option, (o) => o.question, { cascade: true, eager: true })
   options: Option[];
+
+  @OneToMany(() => Answer, (answer) => answer.question)
+  answers: Answer[];
 }

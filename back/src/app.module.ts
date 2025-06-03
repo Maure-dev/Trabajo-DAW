@@ -6,6 +6,7 @@ import { SurveysModule } from './modules/surveys/surveys.module';
 import { Survey } from './modules/surveys/entities/survey.entity';
 import { Question } from './modules/surveys/entities/question.entity';
 import { Option } from './modules/surveys/entities/option.entity';
+import { Answer } from './modules/surveys/entities/answer.entity';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { Option } from './modules/surveys/entities/option.entity';
           database: db.name,
           autoLoadEntities: true,
           synchronize: true,
-          entities: [Survey, Question, Option],
+          entities: [Survey, Question, Option, Answer],
         };
       },
     }),
