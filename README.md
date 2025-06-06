@@ -89,14 +89,51 @@ Para instalar y configurar el proyecto, sigue estos pasos:
 
 2. **Instala las dependencias**
 
+   2.1 **Back**
+
    ```bash
-   ./deploy.sh install
+    cd back 
    ```
 
-3. **Inicia el servidor**
+   ```bash
+    npm install
+   ```
+
+   2.2 **Front**
+
+   ```bash
+    cd front 
+   ```
+
+   ```bash
+    npm install
+   ```
+   
+3. **Genera las variables de entorno - Back**
+
+   Creá un archivo `.env` en la raíz del proyecto de **back** con las siguientes variables:
+
+   ```env
+   PORT=3000
+   DATABASE_HOST=db
+   DATABASE_PORT=5432
+   DATABASE_USER=your-db-user
+   DATABASE_PASSWORD=your-db-password
+   DATABASE_NAME=encuestas_db
+   ```
+
+   > Estas variables son utilizadas por el módulo de configuración (`ConfigModule`) y el módulo de conexión a base de datos (`TypeOrmModule`).
+
+4. **Inicia el servidor**
 
    ```bash
    ./deploy.sh start
+   ```
+
+5. **Detener el servidor**
+
+   ```bash
+   ./deploy.sh stop
    ```
 
 ## Uso del Proyecto
