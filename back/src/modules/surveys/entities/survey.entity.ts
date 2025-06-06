@@ -23,6 +23,9 @@ export class Survey {
   })
   status: SurveyStatus;
 
+  @Column({ type: 'timestamp', nullable: true })
+  expiresAt: Date | null;
+
   @OneToMany(() => Question, (question) => question.survey, {
     cascade: true,
     eager: true,

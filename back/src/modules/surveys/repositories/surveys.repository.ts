@@ -15,6 +15,7 @@ export class SurveysRepository {
   async save(dto: CreateSurveyDto) {
     const survey = this.surveyRepo.create({
       title: dto.title,
+      expiresAt: dto.duration,
       questions: dto.questions.map((q) => ({
         text: q.text,
         type: q.type,

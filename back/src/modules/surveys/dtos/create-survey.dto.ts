@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsString, ValidateNested, Validate } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, IsDate, ValidateNested, Validate } from 'class-validator';
 import { Type } from 'class-transformer';
 import { QuestionType } from '../enums/question-type.enum';
 import { HasMinimumQuestions } from './validators/has-minimum-questions';
@@ -35,4 +35,8 @@ export class CreateSurveyDto {
   @Type(() => CreateQuestionDto)
   @Validate(HasMinimumQuestions)
   questions: CreateQuestionDto[];
+
+  @IsDate()
+  @Type(() => Date)
+  duration: Date;
 }

@@ -10,6 +10,9 @@ export class SurveyPublicDto {
   title: string;
 
   @Expose()
+  expiresAt: Date;
+
+  @Expose()
   status: string;
 
   @Expose()
