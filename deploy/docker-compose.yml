@@ -1,18 +1,30 @@
 services:
   back-api:
     build:
-      context: .
+      context: ../back
       dockerfile: Dockerfile
     command: npm run start:dev
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
+      - ../back:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
     depends_on:
       - db
+
+  front-app:
+    build:
+      context: ../front
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4200:4200"
+    volumes:
+      - ../front:/app
+      - /app/node_modules
+    depends_on:
+      - back-api
 
   db:
     image: postgres:13
@@ -23,7 +35,7 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
     env_file:
-      - ./.env
+      - ../back/.env
     ports:
       - "5432:5432"
 
