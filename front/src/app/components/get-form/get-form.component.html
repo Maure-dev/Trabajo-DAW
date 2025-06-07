@@ -8,10 +8,15 @@
     </div>
     <div class="flex items-center shadow-lg border-2 border-primary bg-primary/40 p-26 rounded m-12">
         <span class="text-nowrap mr-4">
-            Ingresá el link para responder la encuesta:
+            Ingresá el link que te compartieron para participar de la encuesta:
         </span>
-        <input type="text" name="link" id="link"
-            class="bg-white w-full shadow-lg border-2 border-primary rounded-lg pl-4 py-2 placeholder:text-disabled placeholder:brightness-60 font-semibold text-xl" />
+        <input type="text" name="link" id="link" [value]="linkForm()" (input)="handleSetLinkForm($event)"
+            class="bg-white w-full shadow-lg border-2 border-primary rounded-lg pl-4 py-2 placeholder:text-disabled placeholder:brightness-60 font-semibold text-xl mr-4" />
+        <button [disabled]="linkForm() === ''" (click)="handleSearchPublishedForm()"
+            class="flex text-nowrap items-center w-fit bg-confirm hover:brightness-90 px-4 py-3 rounded text-white shadow-lg cursor-pointer disabled:border disabled:border-disabled disabled:bg-white/60 disabled:text-disabled disabled:brightness-60 disabled:cursor-not-allowed">
+            <i class="material-symbols-outlined mr-2 text-xl">edit</i>
+            Acceder
+        </button>
     </div>
     <span></span>
 </section>

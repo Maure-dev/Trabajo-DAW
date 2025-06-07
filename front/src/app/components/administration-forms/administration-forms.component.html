@@ -1,0 +1,56 @@
+<section class="w-full h-[calc(100vh-7.5rem)] overflow-y-auto">
+    <div class="bg-warning py-2 px-12 mt-8 flex justify-between items-center">
+        <span class="font-semibold text-white text-3xl">Administración</span>
+        <button routerLink="/"
+            class="flex font-semibold text-error hover:brightness-90 cursor-pointer bg-white rounded shadow-lg">
+            <span class="text-xl flex items-center bg-error/20 py-2 px-4">Salir</span>
+        </button>
+    </div>
+    <div class="flex flex-col items-center shadow-lg border-2 border-primary bg-primary/40 py-4 px-4 rounded m-8">
+        <div class="flex items-center justify-start w-full mb-12">
+            <span class="text-nowrap mr-4 font-semibold">
+                Ingresá el link para administrar la encuesta publicada:
+            </span>
+            <input type="text" name="link" id="link" [value]="linkForm()" (input)="handleSetLinkForm($event)"
+                class="bg-white w-full shadow-lg border-2 border-primary rounded-lg pl-4 py-2 placeholder:text-disabled placeholder:brightness-60 font-semibold text-xl mr-4" />
+            <button [disabled]="linkForm() === ''" (click)="handleSearchPublishedForm()"
+                class="flex text-nowrap items-center w-fit bg-confirm hover:brightness-90 px-4 py-3 rounded text-white shadow-lg cursor-pointer disabled:border disabled:border-disabled disabled:bg-white/60 disabled:text-disabled disabled:brightness-60 disabled:cursor-not-allowed">
+                <i class="material-symbols-outlined mr-2 text-xl">edit</i>
+                Acceder
+            </button>
+        </div>
+        <span class="w-full text-primary font-bold text-2xl mb-4">Encuestas guardadas como borrador</span>
+        <div class="bg-white w-full shadow-lg border-2 border-primary rounded-lg p-8">
+            <div class="grid grid-cols-3 gap-4" *ngIf="(!loading) && surveys().length > 0">
+                <div class="bg-warning/60 rounded-xl p-4 min-h-96" *ngFor="let survey of surveys();">
+                    <div class="flex flex-col justify-between items-center bg-white rounded-lg p-4 h-full">
+                        <h1 class="font-semibold text-2xl text-center">{{survey.title}}</h1>
+                        <i class="material-symbols-outlined !text-7xl text-warning">edit_document</i>
+                        <div class="flex items-center gap-4">
+                            <button (click)="handleDeleteSurvey(survey)"
+                                class="flex items-center w-fit bg-error hover:brightness-90 px-4 py-2 rounded text-white shadow-lg cursor-pointer">
+                                <i class="material-symbols-outlined mr-2 text-xl">delete</i>
+                                Eliminar encuesta
+                            </button>
+                            <button (click)="handleEditSurvey(survey)"
+                                class="flex items-center w-fit bg-primary hover:brightness-90 px-4 py-2 rounded text-white shadow-lg cursor-pointer">
+                                <i class="material-symbols-outlined mr-2 text-xl">edit</i>
+                                Editar encuesta
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="flex flex-col justify-center items-center" *ngIf="(!loading) && surveys().length === 0">
+                <i class="material-symbols-outlined mb-8 !text-7xl text-warning">sync_problem</i>
+                <span class="italic">Por el momento, no hay encuestas disponibles</span>
+            </div>
+            <div class="flex flex-col justify-center items-center" *ngIf="loading">
+                <mat-spinner class="mb-8"></mat-spinner>
+                <span class="italic">Cargando encuestas...</span>
+            </div>
+        </div>
+    </div>
+    <span></span>
+</section>

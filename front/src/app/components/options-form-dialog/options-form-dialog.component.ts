@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal, WritableSignal, ViewChild, ElementRef, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-options-form-dialog',
-  imports: [CommonModule],
+  imports: [CommonModule, MatTooltipModule],
   templateUrl: './options-form-dialog.component.html',
   styleUrl: './options-form-dialog.component.css'
 })

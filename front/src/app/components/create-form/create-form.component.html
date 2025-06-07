@@ -1,26 +1,28 @@
 <section class="w-full h-[calc(100vh-7.5rem)] overflow-y-auto">
 
     <div
-        class="{{statusForm() !== 'PUBLISH'? 'bg-primary' :'bg-confirm'}} py-2 px-12 mt-8 flex justify-between items-center">
+        class="{{statusForm() !== 'PUBLISHED'? 'bg-primary' :'bg-confirm'}} py-2 px-12 mt-8 flex justify-between items-center">
         <span *ngIf="statusForm() === 'NEW'" class="font-semibold text-white text-3xl">Creación</span>
         <span *ngIf="statusForm() === 'DRAFT'" class="font-semibold text-white text-3xl">Edición</span>
-        <span *ngIf="statusForm() === 'PUBLISH'" class="font-semibold text-white text-3xl">Participación</span>
-        <button class="flex font-semibold text-error hover:brightness-90 cursor-pointer bg-white rounded shadow-lg">
+        <span *ngIf="statusForm() === 'PUBLISHED'" class="font-semibold text-white text-3xl">Participación</span>
+        <button (click)="handleDiscardForm()"
+            class="flex font-semibold text-error hover:brightness-90 cursor-pointer bg-white rounded shadow-lg">
             <span class="text-xl flex items-center bg-error/20 py-2 px-4">Salir</span>
         </button>
     </div>
 
     <div class="border-2 border-header rounded-lg shadow-lg p-12 m-12 relative">
         <div class="absolute flex w-fit text-nowrap items-end justify-center top-[-1.5rem] left-[40vw] bg-white px-4">
-            <i *ngIf="statusForm() !== 'PUBLISH'"
+            <i *ngIf="statusForm() !== 'PUBLISHED'"
                 class="material-symbols-outlined mr-4 !text-4xl {{statusForm() === 'NEW'? 'text-confirm' :'text-primary'}}">edit_document</i>
             <span *ngIf="statusForm() === 'NEW'" class="text-2xl font-semibold text-confirm">Nueva encuesta</span>
             <span *ngIf="statusForm() === 'DRAFT'" class="text-2xl font-semibold text-primary">Editar encuesta</span>
-            <span *ngIf="statusForm() === 'PUBLISH'" class="text-2xl font-semibold text-primary">{{titleForm()}}</span>
+            <span *ngIf="statusForm() === 'PUBLISHED'"
+                class="text-2xl font-semibold text-primary">{{titleForm()}}</span>
         </div>
 
         <div class="flex">
-            <input *ngIf="statusForm() !== 'PUBLISH'" type="text" name="title-form" id="title-form"
+            <input *ngIf="statusForm() !== 'PUBLISHED'" type="text" name="title-form" id="title-form"
                 [value]="titleForm()" (input)="handleSetTitleForm($event)"
                 class="w-full shadow-lg border-2 border-primary rounded-lg pl-4 py-2 placeholder:text-disabled placeholder:brightness-60 font-semibold text-xl"
                 placeholder="Título de la encuesta">
@@ -32,14 +34,14 @@
                 <span class="absolute -top-6 -left-22 text-6xl font-semibold text-primary">{{ (idx + 1) | number: '2.0'
                     }}</span>
                 <div class="flex flex-col w-full shadow-lg border-2 border-primary bg-primary/20 pt-8 px-8 rounded">
-                    <input *ngIf="statusForm() !== 'PUBLISH' && question.status === 'EDIT'" type="text"
+                    <input *ngIf="statusForm() !== 'PUBLISHED' && question.status === 'EDIT'" type="text"
                         name="question-{{idx}}" id="question-{{idx}}" [value]="question.text"
                         (input)="handleUpdateQuestionTitle(idx, $event)"
                         class="w-full shadow-lg border-2 border-header rounded-lg pl-4 py-2 bg-white placeholder:text-disabled placeholder:brightness-60"
                         placeholder="Pregunta {{idx + 1}}" />
-                    <span *ngIf="statusForm() === 'PUBLISH' || question.status === 'SAVE'"
+                    <span *ngIf="statusForm() === 'PUBLISHED' || question.status === 'SAVE'"
                         class="font-bold">{{question.text}}</span>
-                    <select *ngIf="statusForm() !== 'PUBLISH' && question.status === 'EDIT'"
+                    <select *ngIf="statusForm() !== 'PUBLISHED' && question.status === 'EDIT'"
                         name="options-question-{{idx}}" id="options-question-{{idx}}" [value]="question.type"
                         (change)="handleUpdateQuestionType(idx, $event)"
                         class="w-full bg-white py-2 px-4 border-2 border-header rounded-lg mt-4">
@@ -47,8 +49,8 @@
                         <option value="SINGLE_CHOICE">Selección única</option>
                         <option value="OPEN">Texto libre</option>
                     </select>
-                    <textarea *ngIf="statusForm() === 'PUBLISH' || question.type === 'OPEN'"
-                        [disabled]="statusForm() !== 'PUBLISH'" name="question-{{idx}}" id="question-{{idx}}"
+                    <textarea *ngIf="statusForm() === 'PUBLISHED' || question.type === 'OPEN'"
+                        [disabled]="statusForm() !== 'PUBLISHED'" name="question-{{idx}}" id="question-{{idx}}"
                         [value]="question.answer" (input)="handleUpdateQuestionAnswer(idx, $event)"
                         class="w-full shadow-lg border-2 border-header rounded-lg pl-4 py-2 mt-4 mb-8 resize-none min-h-32 bg-white placeholder:text-disabled placeholder:brightness-60 disabled:bg-disabled/40 disabled:border-disabled disabled:cursor-not-allowed"
                         placeholder="Ingrese su respuesta"></textarea>
@@ -68,7 +70,8 @@
                             <label for="option-{{idx}}-{{i}}">{{option.text}}</label>
                         </div>
                     </div>
-                    <button *ngIf="statusForm() !== 'PUBLISH' && question.type !== 'OPEN' && question.status === 'EDIT'"
+                    <button
+                        *ngIf="statusForm() !== 'PUBLISHED' && question.type !== 'OPEN' && question.status === 'EDIT'"
                         class="group flex items-center w-fit text-primary hover:brightness-90 py-4 cursor-pointer"
                         (click)="handleOpenDialogDynamic(idx)">
                         <i class="material-symbols-outlined mr-2 !text-base">
@@ -79,20 +82,21 @@
                         </span>
                     </button>
                     <div class="flex w-full items-center justify-end gap-4">
-                        <button *ngIf="statusForm() !== 'PUBLISH' && question.status === 'EDIT'"
+                        <button *ngIf="statusForm() !== 'PUBLISHED' && question.status === 'EDIT'"
                             (click)="handleSaveQuestion(idx)"
                             [disabled]="question.text === '' || (['SINGLE_CHOICE', 'MULTIPLE_CHOICE'].includes(question.type) && question.options.length === 0)"
+                            [matTooltip]="question.text === '' || (['SINGLE_CHOICE', 'MULTIPLE_CHOICE'].includes(question.type) && question.options.length === 0)? 'Debe cargar al menos una opción para permitir el guardado de la pregunta': ''"
                             class="group flex items-center w-fit text-confirm hover:brightness-90 p-4 pr-0 cursor-pointer disabled:cursor-not-allowed disabled:text-disabled disabled:brightness-90">
                             <i class="material-symbols-outlined mr-2 !text-base">save</i>
                             <span class="group-hover:underline">Guardar</span>
                         </button>
-                        <button *ngIf="statusForm() !== 'PUBLISH' && question.status === 'SAVE'"
+                        <button *ngIf="statusForm() !== 'PUBLISHED' && question.status === 'SAVE'"
                             (click)="handleEditQuestion(idx)"
                             class="group flex items-center w-fit text-primary hover:brightness-90 p-4 pr-0 cursor-pointer">
                             <i class="material-symbols-outlined mr-2 !text-base">edit</i>
                             <span class="group-hover:underline">Editar</span>
                         </button>
-                        <button *ngIf="statusForm() !== 'PUBLISH' && questions().length > 1"
+                        <button *ngIf="statusForm() !== 'PUBLISHED' && questions().length > 1"
                             (click)="handleDeleteQuestion(idx)"
                             class="group flex items-center w-fit text-error hover:brightness-90 p-4 pr-0 cursor-pointer">
                             <i class="material-symbols-outlined mr-2 !text-base">delete</i>
@@ -101,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <button *ngIf="statusForm() !== 'PUBLISH'"
+            <button *ngIf="statusForm() !== 'PUBLISHED'"
                 class="flex items-center w-fit border-2 border-primary bg-white/30 hover:brightness-90 p-4 rounded text-primary shadow-lg cursor-pointer self-end mt-16"
                 (click)="addNewQuestion()">
                 <i class="material-symbols-outlined mr-2 !text-base">add</i>
@@ -110,7 +114,7 @@
         </div>
 
         <div class="flex w-full items-center justify-between mt-8">
-            <div *ngIf="statusForm() !== 'PUBLISH'"
+            <div *ngIf="statusForm() !== 'PUBLISHED'"
                 class="flex items-center shadow-lg p-4 border-2 border-primary rounded-lg text-nowrap">
                 <span>Publicar por</span>
                 <input type="number" name="time-form" id="time-form" [value]="timeForm()"
@@ -120,17 +124,21 @@
                 <span>días</span>
             </div>
             <div class="flex w-full items-center justify-end gap-4">
-                <button *ngIf="statusForm() !== 'PUBLISH'" (click)="handleSaveForm()"
-                    class="flex items-end w-fit bg-primary hover:brightness-90 p-4 rounded text-white shadow-lg cursor-pointer">
+                <button *ngIf="statusForm() !== 'PUBLISHED'" (click)="handleSaveForm()"
+                    [disabled]="hasQuestionsInEditStatus() || hasTimeFormEmpty() || hasTitleFormEmpty()"
+                    [matTooltip]="hasQuestionsInEditStatus() || hasTimeFormEmpty() || hasTitleFormEmpty()? 'Debe cargar el título de la encuesta, guardar todas las preguntas creadas y establecer un tiempo de publicación para habilitar la acción': ''"
+                    class="flex items-end w-fit bg-primary hover:brightness-90 p-4 rounded text-white shadow-lg cursor-pointer disabled:cursor-not-allowed disabled:bg-disabled">
                     <i class="material-symbols-outlined mr-2 text-xl">move_to_inbox</i>
-                    Guardar encuesta
+                    Guardar como borrador
                 </button>
-                <button *ngIf="statusForm() !== 'PUBLISH'"
-                    class="flex items-end w-fit bg-confirm hover:brightness-90 p-4 rounded text-white shadow-lg cursor-pointer">
+                <button *ngIf="statusForm() !== 'PUBLISHED'" (click)="handleSaveForm(true)"
+                    [matTooltip]="hasQuestionsInEditStatus() || hasTimeFormEmpty() || hasTitleFormEmpty()? 'Debe cargar el título de la encuesta, guardar todas las preguntas creadas y establecer un tiempo de publicación para habilitar la acción': ''"
+                    [disabled]="hasQuestionsInEditStatus() || hasTimeFormEmpty() || hasTitleFormEmpty()"
+                    class="flex items-end w-fit bg-confirm hover:brightness-90 p-4 rounded text-white shadow-lg cursor-pointer disabled:cursor-not-allowed disabled:bg-disabled">
                     <i class="material-symbols-outlined mr-2 text-xl">cloud_upload</i>
                     Publicar encuesta
                 </button>
-                <button *ngIf="statusForm() === 'PUBLISH'"
+                <button *ngIf="statusForm() === 'PUBLISHED'"
                     class="flex items-end w-fit bg-confirm hover:brightness-90 p-4 rounded text-white shadow-lg cursor-pointer">
                     <i class="material-symbols-outlined mr-2 text-xl">cloud_upload</i>
                     Enviar respuestas

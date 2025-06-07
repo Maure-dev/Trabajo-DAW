@@ -1,0 +1,38 @@
+<section class="w-full h-[calc(100vh-7.5rem)] overflow-y-auto">
+    <div class="bg-confirm py-2 px-12 mt-8 flex justify-between items-center">
+        <span class="font-semibold text-white text-3xl">Publicación</span>
+        <button routerLink="/"
+            class="flex font-semibold text-error hover:brightness-90 cursor-pointer bg-white rounded shadow-lg">
+            <span class="text-xl flex items-center bg-error/20 py-2 px-4">Salir</span>
+        </button>
+    </div>
+    <div class="border-2 border-confirm rounded-lg shadow-lg p-12 m-12 relative">
+        <div class="absolute flex w-fit text-nowrap items-end justify-center -top-4 left-[40vw] bg-white px-4">
+            <span class="text-2xl font-semibold text-confirm">{{titleForm()}}</span>
+        </div>
+
+        <div class="mt-8 flex flex-col w-full shadow-lg border-2 border-confirm bg-confirm/20 p-12 pb-20 rounded">
+            <div class="flex items-center justify-center mb-16">
+                <i class="material-symbols-outlined !text-7xl mr-4 text-confirm">check_circle</i>
+                <h1 class="font-bold text-7xl text-confirm mt-4">
+                    Encuesta publicada con éxito
+                </h1>
+            </div>
+            <div class="flex items-center mb-8">
+                <span class="text-nowrap mr-2">Gestioná los resultados de la encuesta con el siguiente link:</span>
+                <input type="text" name="linkResults" id="linkResults" [value]="linkResults()" readonly
+                    class="w-full shadow-lg border-2 border-confirm rounded-lg pl-4 py-2 bg-white placeholder:text-disabled placeholder:brightness-60 cursor-default mr-4">
+                <button (click)="copyToClipboard('linkResults')" matTooltip="Copiar link de consulta"
+                    class="cursor-pointer"><i class="material-symbols-outlined text-primary">content_copy</i></button>
+            </div>
+            <div class="flex items-center">
+                <span class="text-nowrap mr-2">Compartí el siguiente link con los participantes de la encuesta:</span>
+                <input type="text" name="linkParticipation" id="linkParticipation" [value]="linkParticipation()"
+                    readonly
+                    class="w-full shadow-lg border-2 border-confirm rounded-lg pl-4 py-2 bg-white placeholder:text-disabled placeholder:brightness-60 cursor-default mr-4">
+                <button (click)="copyToClipboard('linkParticipation')" matTooltip="Copiar link de participación"
+                    class="cursor-pointer"><i class="material-symbols-outlined text-primary">content_copy</i></button>
+            </div>
+        </div>
+    </div>
+</section>

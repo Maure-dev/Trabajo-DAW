@@ -25,6 +25,7 @@
     </button>
     <div class="flex w-full items-center justify-end mb-4">
         <button (click)="handleSubmit()" [disabled]="isSubmitDisabled()"
+            [matTooltip]="isSubmitDisabled()? 'Debe cargar al menos una opción para permitir el guardado de las opciones': ''"
             class="flex items-end border-2 border-confirm hover:brightness-90 bg-confirm/20 p-2 rounded-lg text-confirm shadow-lg cursor-pointer disabled:border-disabled disabled:bg-disabled/20 disabled:text-disabled disabled:brightness-90 disabled:cursor-not-allowed">
             <i class="material-symbols-outlined mr-2 !text-base">save</i>
             <span>Guardar</span>
