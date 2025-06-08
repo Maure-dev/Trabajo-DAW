@@ -29,6 +29,7 @@ export class Survey {
   @OneToMany(() => Question, (question) => question.survey, {
     cascade: true,
     eager: true,
+    onDelete: 'CASCADE'
   })
   questions: Question[];
 }

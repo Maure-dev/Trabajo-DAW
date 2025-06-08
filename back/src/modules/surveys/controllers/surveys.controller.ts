@@ -1,6 +1,5 @@
 import { Body, Controller, Param, Post, Get, Put, Delete, Patch, Query, ParseUUIDPipe } from '@nestjs/common';
 import { CreateSurveyDto } from '../dtos/create-survey.dto';
-import { UpdateSurveyDto } from '../dtos/update-survey.dto';
 import { SurveyResponseDto } from '../dtos/survey-response.dto';
 import { SurveysService } from '../services/surveys.service';
 import { plainToInstance } from 'class-transformer';
@@ -41,14 +40,14 @@ export class SurveysController {
   }
 
   @Put(':id')
-  async updateSurvey(
+  async updateSurvey (
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() dto: UpdateSurveyDto,
+    @Body() dto: CreateSurveyDto,
   ): Promise<SurveyResponseDto> {
     const updatedSurvey = await this.surveysService.updateSurvey(id, dto);
     return plainToInstance(SurveyResponseDto, updatedSurvey, {
       excludeExtraneousValues: true,
-    })
+    });
   }
 
   @Delete(':id')

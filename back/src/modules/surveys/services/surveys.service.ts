@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { CreateSurveyDto } from '../dtos/create-survey.dto';
-import { UpdateSurveyDto } from '../dtos/update-survey.dto';
 import { SurveysRepository } from '../repositories/surveys.repository';
 import { Question } from '../entities/question.entity';
 import { Option } from '../entities/option.entity';
@@ -30,53 +29,35 @@ export class SurveysService {
     return this.surveysRepository.findByStatus(status);
   }
 
-  async updateSurvey(id: string, dto: UpdateSurveyDto) {
+  async updateSurvey (id: string, dto: CreateSurveyDto) {
     const survey = await this.surveysRepository.findByIdWithQuestions(id);
-    if (!survey) {
-      throw new NotFoundException(`Survey ${id} not found`);
-    }
-  
-    // Actualizar título
+    if (!survey) throw new NotFoundException(`Survey ${id} not found`);
+
     survey.title = dto.title;
-  
-    const existingQuestions = new Map(
-      survey.questions.map((q) => [q.id, q]),
-    );
-  
-    const updatedQuestions: Question[] = [];
-    
+    survey.expiresAt = new Date(dto.duration);
+
+    // Eliminar todas las preguntas anteriores
+    survey.questions = [];
+
     for (const qDto of dto.questions) {
-      let question: Question;
-      // Actualizar pregunta
-      if (qDto.id && existingQuestions.has(qDto.id)) {
-        question = existingQuestions.get(qDto.id)!;
-        question.text = qDto.text;
-        question.type = qDto.type;
-        question.options = qDto.options?.map((opt) => {
-          const option = new Option();
-          option.text = opt.text;
-          return option;
-        }) || [];
-  
-        existingQuestions.delete(qDto.id);
-      } else {
-        // Nueva pregunta
-        question = {
-          text: qDto.text,
-          type: qDto.type,
-          options: qDto.options?.map((opt) => ({ text: opt.text })) || [],
-          survey,
-        } as Question;
-      }
-  
-      updatedQuestions.push(question);
+      const question = new Question();
+      question.text = qDto.text;
+      question.type = qDto.type;
+      question.survey = survey;
+
+      question.options = (qDto.options || []).map(optDto => {
+        const option = new Option();
+        option.text = optDto.text;
+        option.question = question;
+        return option;
+      });
+
+      survey.questions.push(question);
     }
-  
-    // Las que quedaron en existingQuestions se eliminan
-    survey.questions = updatedQuestions;
-  
-    return this.surveysRepository.saveEntity(survey);
+
+    return await this.surveysRepository.saveEntity(survey);
   }
+  
 
   async deleteSurvey (id: string): Promise<void> {
     const found = await this.surveysRepository.findByIdWithQuestions(id);

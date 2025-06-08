@@ -96,6 +96,72 @@
       "response": []
     },
     {
+      "name": "Get survey by participation link",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/surveys/participate/294c2a3b-30d9-4015-82a7-ffa3985f7592",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "surveys",
+            "participate",
+            "294c2a3b-30d9-4015-82a7-ffa3985f7592"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get survey by results link",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/surveys/results/6ff0a4b5-4ce5-471f-aa53-4d6a6224f684",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "surveys",
+            "results",
+            "6ff0a4b5-4ce5-471f-aa53-4d6a6224f684"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "Delete survey",
       "request": {
         "method": "DELETE",
@@ -198,7 +264,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "[\n  {\n    \"questionId\": \"255df761-2b7c-4c17-a4bd-74209ed560ba\",\n    \"text\": \"Esta es mi respuesta abierta\" \n  },\n  {\n    \"questionId\": \"7fd5f399-7c6e-4a0e-ba5f-0d5ce789623b\",\n    \"selectedOptionId\": \"004a3cf5-03d9-4e95-82ad-2796c9870909\"\n  },\n  {\n    \"questionId\": \"2c1c5029-60b7-4bc0-9969-aa4c3d169ac4\",\n    \"selectedOptionIds\": [\n      \"6d56dd2f-8926-4a15-b3ed-772e054c11f7\",\n      \"1cce9a74-0fb8-4704-b4ed-369d02900548\"\n    ]\n  }\n]\n\n\n",
+          "raw": "[\n  {\n    \"questionId\": \"20127f42-1b55-49b8-bb12-15c492030ff8\",\n    \"text\": \"TESTEANDO\" \n  },\n  {\n    \"questionId\": \"5ff9e9e4-2a73-4310-ae24-92a6f3e27dd6\",\n    \"selectedOptionId\": \"292bf0b5-5074-4ead-9abc-81d3491d4529\"\n  },\n  {\n    \"questionId\": \"6799aaa4-2700-4daf-88b1-f37e4c674f74\",\n    \"selectedOptionIds\": [\n      \"6bc8090f-999d-43a7-8146-e1f78c834276\",\n      \"84086ebf-1dfa-46dc-801a-52de95f51374\"\n    ]\n  }\n]\n\n",
           "options": {
             "raw": {
               "language": "json"

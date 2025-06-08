@@ -23,7 +23,7 @@ export class Question {
   @Exclude()
   survey: Survey;
 
-  @OneToMany(() => Option, (o) => o.question, { cascade: true, eager: true })
+  @OneToMany(() => Option, (o) => o.question, { cascade: true, eager: true, onDelete: 'CASCADE' })
   options: Option[];
 
   @OneToMany(() => Answer, (answer) => answer.question)
