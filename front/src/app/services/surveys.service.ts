@@ -13,6 +13,14 @@ export class SurveysService {
         return this.httpClient.get<SurveyResponse>(`${this.API_URL}/surveys/${surveyId}`);
     }
 
+    getSurveyByResultLink(surveyId: string): Observable<SurveyResponse> {
+        return this.httpClient.get<SurveyResponse>(`${this.API_URL}/surveys/results/${surveyId}`);
+    }
+
+    getSurveyByParticipationLink(surveyId: string): Observable<SurveyResponse> {
+        return this.httpClient.get<SurveyResponse>(`${this.API_URL}/surveys/participate/${surveyId}`);
+    }
+
     createSurvey(survey: {
         title: string;
         questions: {
@@ -35,6 +43,17 @@ export class SurveysService {
         duration: string;
     }, surveyId: string): Observable<SurveyResponse> {
         return this.httpClient.put<SurveyResponse>(`${this.API_URL}/surveys/${surveyId}`, survey);
+    }
+
+    sendSurveyAnswers(survey: {
+        title: string;
+        email: string;
+        questions: {
+            text: string;
+            answer: string | string[];
+        }[],
+    }, surveyId: string): Observable<{ success: boolean; message: string; }> {
+        return this.httpClient.post<{ success: boolean; message: string; }>(`${this.API_URL}/surveys/answers/${surveyId}`, survey);
     }
 
     updateStatusSurvey(surveyId: string): Observable<SurveyResponseStatus> {

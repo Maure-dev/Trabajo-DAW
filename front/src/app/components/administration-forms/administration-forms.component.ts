@@ -20,7 +20,7 @@ export class AdministrationFormsComponent implements OnInit {
   private _snackBar = inject(MatSnackBar);
   private router = inject(Router);
   readonly dialog = inject(MatDialog);
-  public loading: boolean = true;
+  public loading: WritableSignal<boolean> = signal(true);
   public surveys: WritableSignal<SurveyResponse[]> = signal([]);
   public linkForm: WritableSignal<string> = signal("");
 
@@ -29,15 +29,15 @@ export class AdministrationFormsComponent implements OnInit {
   }
 
   handleGetSurveysByStatus() {
-    this.loading = true;
+    this.loading.set(true);
     this.surveysService.getSurveysByStatus('DRAFT').subscribe({
       next: (res) => {
         this.surveys.set(res);
-        this.loading = false;
+        this.loading.set(false);
       },
       error: (error) => {
         console.error("Error: ", error);
-        this.loading = false;
+        this.loading.set(false);
       },
     });
   }
@@ -60,12 +60,14 @@ export class AdministrationFormsComponent implements OnInit {
   }
 
   handleSearchPublishedForm() {
-    this.surveysService.getSurveyById(this.linkForm().split('/')[4]).subscribe({
+    this.surveysService.getSurveyByResultLink(this.linkForm().split('/')[4]).subscribe({
       next: (res) => {
         if (res.status !== 'PUBLISHED') {
           this.handleOpenSnackBar('La encuesta ingresada no se encuentra publicada, intente nuevamente.', 'ERROR');
         } else {
-          // HACER EL REDIRECT PARA COSULTAR STATUS DE LA ENCUESTA.∫
+          this.router.navigateByUrl('/create-form', {
+            state: { survey: res, resultsMode: true }
+          });
         }
 
       }, error: (error) => {
@@ -77,7 +79,7 @@ export class AdministrationFormsComponent implements OnInit {
 
   handleEditSurvey(survey: SurveyResponse) {
     this.router.navigateByUrl('/create-form', {
-      state: { survey }
+      state: { survey: survey }
     });
   }
 

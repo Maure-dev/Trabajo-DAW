@@ -1,10 +1,8 @@
 export interface SurveyOption {
-    id: string;
     text: string;
 }
 
 export interface SurveyQuestion {
-    id: string;
     text: string;
     type: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'OPEN';
     options: SurveyOption[];

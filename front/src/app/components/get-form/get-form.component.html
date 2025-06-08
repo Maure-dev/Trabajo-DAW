@@ -14,8 +14,13 @@
             class="bg-white w-full shadow-lg border-2 border-primary rounded-lg pl-4 py-2 placeholder:text-disabled placeholder:brightness-60 font-semibold text-xl mr-4" />
         <button [disabled]="linkForm() === ''" (click)="handleSearchPublishedForm()"
             class="flex text-nowrap items-center w-fit bg-confirm hover:brightness-90 px-4 py-3 rounded text-white shadow-lg cursor-pointer disabled:border disabled:border-disabled disabled:bg-white/60 disabled:text-disabled disabled:brightness-60 disabled:cursor-not-allowed">
-            <i class="material-symbols-outlined mr-2 text-xl">edit</i>
-            Acceder
+            <span *ngIf="!loading()" class="flex items-center"><i
+                    class="material-symbols-outlined mr-2 text-xl">edit</i>
+                Acceder</span>
+            <span *ngIf="loading()" class="flex items-center justify-center text-nowrap"><mat-spinner diameter="25"
+                    class="mr-2"></mat-spinner>
+                Cargando...</span>
+
         </button>
     </div>
     <span></span>

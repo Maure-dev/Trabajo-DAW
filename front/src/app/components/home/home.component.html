@@ -50,9 +50,13 @@
             class="mt-64 border-4 rounded-4xl bg-white border-error px-8 py-12 flex flex-col justify-between mr-12 text-center min-w-72 max-w-72 min-h-96 max-h-96">
             <span class="text-3xl font-semibold">#RANDOM</span>
             <span class="">Responde una encuesta publicada de forma aleatoria</span>
-            <button
-                class="bg-primary hover:brightness-90 p-4 rounded font-bold text-white shadow-lg cursor-pointer">Modo
-                #RANDOM</button>
+            <button (click)="handleGetSurveysByStatus()"
+                class="bg-primary hover:brightness-90 p-4 text-center rounded font-bold text-white shadow-lg cursor-pointer">
+                <span *ngIf="!loading()">Modo #RANDOM</span>
+                <span *ngIf="loading()" class="flex items-center justify-center text-nowrap"><mat-spinner diameter="25"
+                        class="mr-2"></mat-spinner>
+                    Cargando...</span>
+            </button>
         </div>
     </div>
     <div id="about" class="pt-8">

@@ -11,18 +11,22 @@ import {
   MatSnackBar,
 } from '@angular/material/snack-bar';
 import { SnackBarComponent } from '../snack-bar/snack-bar.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-create-form',
-  imports: [CommonModule, MatTooltipModule],
+  imports: [CommonModule, MatTooltipModule, MatProgressSpinnerModule],
   templateUrl: './create-form.component.html',
   styleUrl: './create-form.component.css'
 })
 export class CreateFormComponent implements OnInit {
   private router = inject(Router);
   public titleForm: WritableSignal<string> = signal("");
+  public emailForm: WritableSignal<string> = signal("");
   public statusForm: WritableSignal<string> = signal("NEW");
   public timeForm: WritableSignal<number> = signal(1);
+  public loading: WritableSignal<boolean> = signal(false);
+  public resultsMode: WritableSignal<boolean> = signal(false);
   public surveyData: WritableSignal<SurveyResponse> = signal({
     id: '',
     title: '',
@@ -37,7 +41,7 @@ export class CreateFormComponent implements OnInit {
     text: string;
     type: string;
     options: { text: string }[];
-    answer: string;
+    answer: string | string[];
     status: string;
   }[]> = signal([{
     text: '',
@@ -55,6 +59,13 @@ export class CreateFormComponent implements OnInit {
   ngOnInit(): void {
     const survey: SurveyResponse = this.router.getCurrentNavigation()?.extras?.state?.['survey']
       ?? history.state['survey'];
+
+    const resultsMode: boolean = this.router.getCurrentNavigation()?.extras?.state?.['resultsMode']
+      ?? history.state['resultsMode'];
+
+    if (resultsMode) {
+      this.resultsMode.set(resultsMode);
+    }
 
     if (survey) {
       const expiresAtDate = new Date(survey.expiresAt);
@@ -96,6 +107,11 @@ export class CreateFormComponent implements OnInit {
     this.titleForm.set(input.value);
   }
 
+  handleSetEmailForm(e: Event) {
+    const input = e.target as HTMLInputElement;
+    this.emailForm.set(input.value);
+  }
+
   handleSetTimeForm(e: Event) {
     const input = e.target as HTMLInputElement;
     this.timeForm.set(Number(input.value));
@@ -126,10 +142,34 @@ export class CreateFormComponent implements OnInit {
     this.questions.set(copy);
   }
 
-  handleUpdateQuestionAnswer(idx: number, e: Event) {
+  handleUpdateQuestionAnswer(idx: number, e: Event, type: string) {
     const copy = [...this.questions()];
-    const input = e.target as HTMLTextAreaElement;
-    copy[idx].answer = input.value;
+
+    if (type === 'OPEN' || type === 'SINGLE_CHOICE') {
+      const input = e.target as HTMLInputElement | HTMLTextAreaElement;
+      copy[idx].answer = input.value;
+    } else if (type === 'MULTIPLE_CHOICE') {
+      const input = e.target as HTMLInputElement;
+      const optionValue = input.value;
+
+      const currentAnswers = Array.isArray(copy[idx].answer)
+        ? [...copy[idx].answer]
+        : [];
+
+      if (input.checked) {
+        if (!currentAnswers.includes(optionValue)) {
+          currentAnswers.push(optionValue);
+        }
+      } else {
+        const index = currentAnswers.indexOf(optionValue);
+        if (index > -1) {
+          currentAnswers.splice(index, 1);
+        }
+      }
+
+      copy[idx].answer = currentAnswers;
+    }
+
     this.questions.set(copy);
   }
 
@@ -160,6 +200,10 @@ export class CreateFormComponent implements OnInit {
   }
 
   handleDiscardForm() {
+    if (this.resultsMode()) {
+      this.router.navigateByUrl('/');
+      return;
+    }
     const dialogRef = this.dialog.open(DiscardFormDialogComponent, {
       width: "50vw",
     });
@@ -184,6 +228,8 @@ export class CreateFormComponent implements OnInit {
   }
 
   handleSaveForm(publish: boolean = false) {
+    if (this.loading()) return;
+    this.loading.set(true);
     const currentDate = new Date();
     const expirationDate = new Date(currentDate);
     expirationDate.setDate(currentDate.getDate() + this.timeForm());
@@ -210,6 +256,7 @@ export class CreateFormComponent implements OnInit {
           if (publish) {
             this.surveysService.updateStatusSurvey(res.id).subscribe({
               next: (res) => {
+                this.loading.set(false);
                 this.router.navigateByUrl(
                   '/links-published-form?surveyTitle=' +
                   res.title +
@@ -220,14 +267,17 @@ export class CreateFormComponent implements OnInit {
                 );
               }, error: (error) => {
                 this.handleOpenSnackBar('Ocurrió un error al publicar la encuesta, intente nuevamente.', 'ERROR');
+                this.loading.set(false);
                 console.error("Error: ", error);
               }
             })
           } else {
+            this.loading.set(false);
             this.handleOpenSnackBar('Éxito al guardar la encuesta como borrador', 'SUCCESS');
           }
         },
         error: (error) => {
+          this.loading.set(false);
           this.handleOpenSnackBar('Ocurrió un error al guardar la encuesta como borrador, intente nuevamente.', 'ERROR');
           console.error("Error: ", error);
         },
@@ -238,6 +288,7 @@ export class CreateFormComponent implements OnInit {
           if (publish) {
             this.surveysService.updateStatusSurvey(res.id).subscribe({
               next: (res) => {
+                this.loading.set(false);
                 this.router.navigateByUrl(
                   '/links-published-form?surveyTitle=' +
                   res.title +
@@ -248,21 +299,58 @@ export class CreateFormComponent implements OnInit {
                 );
 
               }, error: (error) => {
+                this.loading.set(false);
                 this.handleOpenSnackBar('Ocurrió un error al publicar la encuesta, intente nuevamente.', 'ERROR');
                 console.error("Error: ", error);
               }
             })
           } else {
+            this.loading.set(false);
             this.handleOpenSnackBar('Éxito al guardar la encuesta como borrador', 'SUCCESS');
           }
         },
         error: (error) => {
+          this.loading.set(false);
           this.handleOpenSnackBar('Ocurrió un error al actualizar la encuesta, intente nuevamente.', 'ERROR');
           console.error("Error: ", error);
         },
       });
     }
   }
+
+  handleSendAnswers() {
+    if (this.loading()) return;
+    this.loading.set(true);
+    const questionsData = this.questions().map(q => {
+      const { status, options, type, ...rest } = q;
+      return rest;
+    })
+    const data = {
+      title: this.titleForm(),
+      email: this.emailForm(),
+      questions: questionsData
+    }
+    this.surveysService.sendSurveyAnswers(data, this.surveyData().id).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.loading.set(false);
+          this.handleOpenSnackBar('Éxito al enviar sus respuestas', 'SUCCESS');
+          this.router.navigateByUrl('/');
+        } else {
+          this.loading.set(false);
+          console.error("Error: ", res.message);
+          this.handleOpenSnackBar(res.message, 'ERROR');
+        }
+
+      },
+      error: (error) => {
+        this.loading.set(false);
+        this.handleOpenSnackBar('Ocurrió un error al enviar sus respuestas, intente nuevamente.', 'ERROR');
+        console.error("Error: ", error);
+      },
+    });
+  }
+
 
   hasQuestionsInEditStatus(): boolean {
     return this.questions().some(q => q.status === 'EDIT');
@@ -274,5 +362,9 @@ export class CreateFormComponent implements OnInit {
 
   hasTimeFormEmpty(): boolean {
     return this.timeForm() < 1;
+  }
+
+  hasQuestionsWhitoutAnswer(): boolean {
+    return this.questions().some(q => q.answer === '' || q.answer.length === 0);
   }
 }

@@ -1,10 +1,13 @@
 <section class="w-full h-[calc(100vh-7.5rem)] overflow-y-auto">
 
     <div
-        class="{{statusForm() !== 'PUBLISHED'? 'bg-primary' :'bg-confirm'}} py-2 px-12 mt-8 flex justify-between items-center">
+        class="{{statusForm() !== 'PUBLISHED'? 'bg-primary' : resultsMode()? 'bg-warning' :'bg-confirm'}} py-2 px-12 mt-8 flex justify-between items-center">
         <span *ngIf="statusForm() === 'NEW'" class="font-semibold text-white text-3xl">Creación</span>
         <span *ngIf="statusForm() === 'DRAFT'" class="font-semibold text-white text-3xl">Edición</span>
-        <span *ngIf="statusForm() === 'PUBLISHED'" class="font-semibold text-white text-3xl">Participación</span>
+        <span *ngIf="statusForm() === 'PUBLISHED' && !resultsMode()"
+            class="font-semibold text-white text-3xl">Participación</span>
+        <span *ngIf="statusForm() === 'PUBLISHED' && resultsMode()"
+            class="font-semibold text-white text-3xl">Gestión</span>
         <button (click)="handleDiscardForm()"
             class="flex font-semibold text-error hover:brightness-90 cursor-pointer bg-white rounded shadow-lg">
             <span class="text-xl flex items-center bg-error/20 py-2 px-4">Salir</span>
@@ -12,7 +15,7 @@
     </div>
 
     <div class="border-2 border-header rounded-lg shadow-lg p-12 m-12 relative">
-        <div class="absolute flex w-fit text-nowrap items-end justify-center top-[-1.5rem] left-[40vw] bg-white px-4">
+        <div class="absolute flex w-fit text-nowrap items-end justify-center top-[-1.5rem] left-[35%] bg-white px-4">
             <i *ngIf="statusForm() !== 'PUBLISHED'"
                 class="material-symbols-outlined mr-4 !text-4xl {{statusForm() === 'NEW'? 'text-confirm' :'text-primary'}}">edit_document</i>
             <span *ngIf="statusForm() === 'NEW'" class="text-2xl font-semibold text-confirm">Nueva encuesta</span>
@@ -25,7 +28,11 @@
             <input *ngIf="statusForm() !== 'PUBLISHED'" type="text" name="title-form" id="title-form"
                 [value]="titleForm()" (input)="handleSetTitleForm($event)"
                 class="w-full shadow-lg border-2 border-primary rounded-lg pl-4 py-2 placeholder:text-disabled placeholder:brightness-60 font-semibold text-xl"
-                placeholder="Título de la encuesta">
+                placeholder="Título de la encuesta *">
+            <input *ngIf="statusForm() === 'PUBLISHED' && !resultsMode()" type="email" name="email-form" id="email-form"
+                [value]="emailForm()" (input)="handleSetEmailForm($event)"
+                class="w-full shadow-lg border-2 border-primary rounded-lg pl-4 py-2 placeholder:text-disabled placeholder:brightness-60 font-semibold text-xl"
+                placeholder="Email de notificación *">
         </div>
 
         <div class="mt-8 flex flex-col w-full shadow-lg border-2 border-primary bg-primary/40 py-12 px-26 rounded">
@@ -33,14 +40,14 @@
                 class="bg-white rounded relative mb-16 last-of-type:mb-0">
                 <span class="absolute -top-6 -left-22 text-6xl font-semibold text-primary">{{ (idx + 1) | number: '2.0'
                     }}</span>
-                <div class="flex flex-col w-full shadow-lg border-2 border-primary bg-primary/20 pt-8 px-8 rounded">
+                <div class="flex flex-col w-full shadow-lg border-2 border-primary bg-primary/20 p-8 rounded">
                     <input *ngIf="statusForm() !== 'PUBLISHED' && question.status === 'EDIT'" type="text"
                         name="question-{{idx}}" id="question-{{idx}}" [value]="question.text"
                         (input)="handleUpdateQuestionTitle(idx, $event)"
                         class="w-full shadow-lg border-2 border-header rounded-lg pl-4 py-2 bg-white placeholder:text-disabled placeholder:brightness-60"
                         placeholder="Pregunta {{idx + 1}}" />
                     <span *ngIf="statusForm() === 'PUBLISHED' || question.status === 'SAVE'"
-                        class="font-bold">{{question.text}}</span>
+                        class="font-bold">{{question.text}} <span class="text-error">*</span></span>
                     <select *ngIf="statusForm() !== 'PUBLISHED' && question.status === 'EDIT'"
                         name="options-question-{{idx}}" id="options-question-{{idx}}" [value]="question.type"
                         (change)="handleUpdateQuestionType(idx, $event)"
@@ -49,25 +56,33 @@
                         <option value="SINGLE_CHOICE">Selección única</option>
                         <option value="OPEN">Texto libre</option>
                     </select>
-                    <textarea *ngIf="statusForm() === 'PUBLISHED' || question.type === 'OPEN'"
-                        [disabled]="statusForm() !== 'PUBLISHED'" name="question-{{idx}}" id="question-{{idx}}"
-                        [value]="question.answer" (input)="handleUpdateQuestionAnswer(idx, $event)"
+                    <textarea *ngIf="question.type === 'OPEN'"
+                        [disabled]="resultsMode() || statusForm() !== 'PUBLISHED'" name="question-{{idx}}"
+                        id="question-{{idx}}" [value]="question.answer"
+                        (input)="handleUpdateQuestionAnswer(idx, $event, 'OPEN')"
                         class="w-full shadow-lg border-2 border-header rounded-lg pl-4 py-2 mt-4 mb-8 resize-none min-h-32 bg-white placeholder:text-disabled placeholder:brightness-60 disabled:bg-disabled/40 disabled:border-disabled disabled:cursor-not-allowed"
                         placeholder="Ingrese su respuesta"></textarea>
+                    <span *ngIf="question.type === 'OPEN' && resultsMode()">
+                        (Listado de respuestas)
+                    </span>
                     <div *ngIf="question.options.length > 0 && question.type === 'MULTIPLE_CHOICE'"
                         class="flex items-center justify-start w-full mt-4 ml-4">
                         <div class="px-2 flex items-center" *ngFor="let option of question.options; let i = index">
-                            <input type="checkbox" name="option-{{idx}}-{{i}}" id="option-{{idx}}-{{i}}"
-                                value="{{option.text}}" class="mr-2" />
-                            <label for="option-{{idx}}-{{i}}">{{option.text}}</label>
+                            <input [disabled]="resultsMode()"
+                                (input)="handleUpdateQuestionAnswer(idx, $event, 'MULTIPLE_CHOICE')" type="checkbox"
+                                name="option-{{idx}}-{{i}}" id="option-{{idx}}-{{i}}" value="{{option.text}}"
+                                class="mr-2 disabled:cursor-not-allowed" />
+                            <label for="option-{{idx}}-{{i}}">{{option.text}} {{resultsMode()? '(0)': ''}}</label>
                         </div>
                     </div>
                     <div *ngIf="question.options.length > 0 && question.type === 'SINGLE_CHOICE'"
                         class="flex items-center justify-start w-full mt-4">
                         <div class="px-2 flex items-center" *ngFor="let option of question.options; let i = index">
-                            <input type="radio" name="option-{{idx}}" id="option-{{idx}}-{{i}}" value="{{option.text}}"
-                                class="mr-2" />
-                            <label for="option-{{idx}}-{{i}}">{{option.text}}</label>
+                            <input [disabled]="resultsMode()"
+                                (input)="handleUpdateQuestionAnswer(idx, $event, 'SINGLE_CHOICE')" type="radio"
+                                name="option-{{idx}}" id="option-{{idx}}-{{i}}" value="{{option.text}}"
+                                class="mr-2 disabled:cursor-not-allowed" />
+                            <label for="option-{{idx}}-{{i}}">{{option.text}} {{resultsMode()? '(0)': ''}}</label>
                         </div>
                     </div>
                     <button
@@ -138,8 +153,10 @@
                     <i class="material-symbols-outlined mr-2 text-xl">cloud_upload</i>
                     Publicar encuesta
                 </button>
-                <button *ngIf="statusForm() === 'PUBLISHED'"
-                    class="flex items-end w-fit bg-confirm hover:brightness-90 p-4 rounded text-white shadow-lg cursor-pointer">
+                <button *ngIf="statusForm() === 'PUBLISHED' && !resultsMode()" (click)="handleSendAnswers()"
+                    [matTooltip]="hasQuestionsWhitoutAnswer() || emailForm() === ''? 'Debe completar toda la encuesta para habilitar la acción': ''"
+                    [disabled]="hasQuestionsWhitoutAnswer() || emailForm() === ''"
+                    class="flex items-end w-fit bg-confirm hover:brightness-90 p-4 rounded text-white shadow-lg cursor-pointer disabled:cursor-not-allowed disabled:bg-disabled">
                     <i class="material-symbols-outlined mr-2 text-xl">cloud_upload</i>
                     Enviar respuestas
                 </button>
