@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Nombre del volumen y contenedor
-VOLUME_NAME="back_db_data"
-CONTAINER_NAME="back-db-1"
+VOLUME_NAME="deploy_db_data"
+CONTAINER_NAME="deploy-db-1"
 
 echo "🛑 Deteniendo contenedor $CONTAINER_NAME..."
 docker stop "$CONTAINER_NAME"

@@ -7,6 +7,7 @@ import { Survey } from '../entities/survey.entity';
 import { GetSurveysQueryDto } from '../dtos/get-surveys-query.dto';
 import { SurveyPublicDto } from '../dtos/survey-public.dto';
 import { SurveyStatusDto } from '../dtos/survey-status.dto';
+import { SurveyPublicStatusDto } from '../dtos/survey-public-status.dto';
 
 @Controller('surveys')
 export class SurveysController {
@@ -18,9 +19,9 @@ export class SurveysController {
   }
 
   @Get()
-  async getByStatus (@Query() query: GetSurveysQueryDto): Promise<SurveyPublicDto[]> {
+  async getByStatus (@Query() query: GetSurveysQueryDto): Promise<SurveyPublicStatusDto[]> {
     const surveys = await this.surveysService.getSurveysByStatus(query.status);
-    return plainToInstance(SurveyPublicDto, surveys, { excludeExtraneousValues: true });
+    return plainToInstance(SurveyPublicStatusDto, surveys, { excludeExtraneousValues: true });
   }
 
   @Get(':id')

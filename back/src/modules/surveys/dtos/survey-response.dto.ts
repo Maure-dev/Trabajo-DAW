@@ -1,8 +1,8 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose, Exclude, Type } from 'class-transformer';
 import { QuestionType } from "../enums/question-type.enum";
 
 export class OptionResponseDto {
-  @Expose()
+  @Exclude()
   id: string;
 
   @Expose()
@@ -10,7 +10,7 @@ export class OptionResponseDto {
 }
 
 export class QuestionResponseDto {
-  @Expose()
+  @Exclude()
   id: string;
 
   @Expose()

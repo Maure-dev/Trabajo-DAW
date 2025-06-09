@@ -13,6 +13,7 @@ import { Question } from './entities/question.entity';
 import { Option } from './entities/option.entity';
 import { Answer } from './entities/answer.entity';
 import { Response } from './entities/response.entity';
+import { EmailService } from './services/email.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Survey, Question, Option, Answer, Response])],
@@ -24,6 +25,7 @@ import { Response } from './entities/response.entity';
   providers: [
     SurveysService,
     AnswersService,
+    EmailService,
     SurveysRepository,
     AnswersRepository,
     ResponsesRepository,

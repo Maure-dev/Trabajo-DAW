@@ -1,14 +1,17 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { CreateAnswerDto } from '../dtos/create-answer.dto';
+import { Param, Body, Controller, Post, ParseUUIDPipe } from '@nestjs/common';
+import { SubmitSurveyAnswersDto } from '../dtos/create-answer.dto';
 import { AnswersService } from '../services/answers.service';
-import { Response } from '../entities/response.entity';
 
-@Controller('answers')
+@Controller('surveys/answers')
 export class AnswersController {
   constructor(private readonly answersService: AnswersService) { }
 
-  @Post()
-  create (@Body() dtos: CreateAnswerDto[]): Promise<Response> {
-    return this.answersService.createAnswers(dtos);
+  @Post(':surveyId')
+  create (
+    @Param('surveyId', ParseUUIDPipe) surveyId: string,
+    @Body() dtos: SubmitSurveyAnswersDto,
+  ): Promise<{ success: boolean; message: string }> {
+    return this.answersService.createAnswers(surveyId, dtos);
   }
 }
+

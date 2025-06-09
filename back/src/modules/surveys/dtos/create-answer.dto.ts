@@ -1,30 +1,37 @@
 import {
-  IsUUID,
-  IsOptional,
   IsString,
+  IsEmail,
   IsArray,
-  ValidateIf,
+  IsNotEmpty,
   ArrayNotEmpty,
+  ValidateNested,
+  IsUUID,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
-export class CreateAnswerDto {
+export class AnswerInputDto {
   @IsUUID()
-  questionId: string;
+  id: string;
 
-  @ValidateIf((o: CreateAnswerDto) => !o.selectedOptionId && !o.selectedOptionIds)
   @IsString()
-  @IsOptional()
-  text?: string;
+  @IsNotEmpty()
+  text: string;
 
-  @ValidateIf((o: CreateAnswerDto) => !o.text && !o.selectedOptionIds)
-  @IsUUID()
-  @IsOptional()
-  selectedOptionId?: string;
+  @IsString({ each: true })
+  answer: string | string[];
+}
 
-  @ValidateIf((o: CreateAnswerDto) => !o.text && !o.selectedOptionId)
+export class SubmitSurveyAnswersDto {
+  @IsString()
+  title: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
   @IsArray()
   @ArrayNotEmpty()
-  @IsUUID('all', { each: true })
-  @IsOptional()
-  selectedOptionIds?: string[];
+  @ValidateNested({ each: true })
+  @Type(() => AnswerInputDto)
+  questions: AnswerInputDto[];
 }
