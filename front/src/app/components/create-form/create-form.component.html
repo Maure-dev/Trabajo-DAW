@@ -62,9 +62,10 @@
                         (input)="handleUpdateQuestionAnswer(idx, $event, 'OPEN')"
                         class="w-full shadow-lg border-2 border-header rounded-lg pl-4 py-2 mt-4 mb-8 resize-none min-h-32 bg-white placeholder:text-disabled placeholder:brightness-60 disabled:bg-disabled/40 disabled:border-disabled disabled:cursor-not-allowed"
                         placeholder="Ingrese su respuesta"></textarea>
-                    <span *ngIf="question.type === 'OPEN' && resultsMode()">
-                        (Listado de respuestas)
-                    </span>
+                    <div class="flex flex-col" *ngIf="question.type === 'OPEN' && resultsMode()">
+                        <span *ngFor="let answer of question.answers" class="mb-4 last-of-type:mb-0">•
+                            {{answer.text}}</span>
+                    </div>
                     <div *ngIf="question.options.length > 0 && question.type === 'MULTIPLE_CHOICE'"
                         class="flex items-center justify-start w-full mt-4 ml-4">
                         <div class="px-2 flex items-center" *ngFor="let option of question.options; let i = index">
@@ -72,7 +73,8 @@
                                 (input)="handleUpdateQuestionAnswer(idx, $event, 'MULTIPLE_CHOICE')" type="checkbox"
                                 name="option-{{idx}}-{{i}}" id="option-{{idx}}-{{i}}" value="{{option.text}}"
                                 class="mr-2 disabled:cursor-not-allowed" />
-                            <label for="option-{{idx}}-{{i}}">{{option.text}} {{resultsMode()? '(0)': ''}}</label>
+                            <label for="option-{{idx}}-{{i}}">{{option.text}} {{resultsMode()?
+                                handleGetTotalAnswers(question, option.text, 'MULTIPLE_CHOICE'): ''}}</label>
                         </div>
                     </div>
                     <div *ngIf="question.options.length > 0 && question.type === 'SINGLE_CHOICE'"
@@ -82,7 +84,8 @@
                                 (input)="handleUpdateQuestionAnswer(idx, $event, 'SINGLE_CHOICE')" type="radio"
                                 name="option-{{idx}}" id="option-{{idx}}-{{i}}" value="{{option.text}}"
                                 class="mr-2 disabled:cursor-not-allowed" />
-                            <label for="option-{{idx}}-{{i}}">{{option.text}} {{resultsMode()? '(0)': ''}}</label>
+                            <label for="option-{{idx}}-{{i}}">{{option.text}} {{resultsMode()?
+                                handleGetTotalAnswers(question, option.text, 'SINGLE_CHOICE'): ''}}</label>
                         </div>
                     </div>
                     <button

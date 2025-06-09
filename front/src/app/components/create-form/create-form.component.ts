@@ -39,6 +39,18 @@ export class CreateFormComponent implements OnInit {
 
   public questions: WritableSignal<{
     text: string;
+    answers?: {
+      id: string;
+      selectedOption: {
+        id: string;
+        text: string;
+      };
+      selectedOptions: {
+        id: string;
+        text: string;
+      }[];
+      text: string;
+    }[];
     type: string;
     options: { text: string }[];
     answer: string | string[];
@@ -197,6 +209,23 @@ export class CreateFormComponent implements OnInit {
       questions.splice(idx, 1);
       return [...questions];
     })
+  }
+
+  handleGetTotalAnswers(question: any, option: string, type: string): string {
+    let totalAnswers: number = 0;
+    question.answers.forEach((answer: any) => {
+      if (type === 'MULTIPLE_CHOICE') {
+        answer.selectedOptions.forEach((selectedOption: any) => {
+          if (selectedOption.text === option) {
+            totalAnswers = totalAnswers + 1;
+          }
+        })
+      }
+      if (type === 'SINGLE_CHOICE' && answer.selectedOption.text === option) {
+        totalAnswers = totalAnswers + 1;
+      }
+    });
+    return `(${totalAnswers.toString()})`
   }
 
   handleDiscardForm() {
