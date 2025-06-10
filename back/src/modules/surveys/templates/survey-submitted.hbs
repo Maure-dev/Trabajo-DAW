@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificación de encuesta contestada</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #161823;
+        }
+
+        .container {
+            background-color: #232635;
+            max-width: 40rem;
+            margin: 0 auto;
+            padding: 1.25rem;
+            border-radius: 1rem;
+        }
+
+        h1 {
+            color: #38ef7d;
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+
+        p,
+        span {
+            color: #ffffff;
+            font-size: 1rem;
+            line-height: 2;
+        }
+
+        .highlight {
+            color: #6aba6e;
+            font-weight: bold;
+        }
+
+        .status {
+            padding: 0.625rem;
+            border-radius: 0.5rem;
+            margin: 1.25rem 0;
+            background-color: #161823;
+            border-left: 0.313rem solid #38ef7d;
+        }
+
+        .footer {
+            margin-top: 1.25rem;
+            font-size: 0.875rem;
+
+        }
+
+        .footer p strong {
+            color: #38ef7d;
+        }
+
+        .footer p {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Encuesta - {{titleSurvey}}</h1>
+    <p>Estimado usuario.</p>
+    <p>Le informamos que sus respuestas han sido registradas con éxito en nuestro sistema.</p>
+
+    {{#each questions}}
+    <div class="status">
+      <p><strong>Pregunta:</strong> {{this.text}}</p>
+      <p><strong>Respuesta:</strong> <span class="highlight">{{this.answer}}</span></p>
+    </div>
+    {{/each}}
+
+    <div class="footer">
+      <span><strong>Fecha de realización:</strong> <span class="highlight">{{dateUpdate}}</span></span>
+      <p>Si necesita más información, no dude en ponerse en contacto con nosotros.</p>
+      <p class="team"><strong>Equipo de Desarrollo de Aplicaciones Web</strong></p>
+    </div>
+  </div>
+</body>
+
+
+</html>

@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "tailwindcss";
+
+* {
+    font-family: "Kufam", sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+@theme {
+    --color-disabled: #C8C7C7;
+    --color-header: #51A2CD;
+    --color-primary: #3C80DF;
+    --color-confirm: #00B20F;
+    --color-error: #F21212;
+    --color-warning: #F2B312;
+    --color-white: white;
+    --color-black: #1D1D1B;
+}

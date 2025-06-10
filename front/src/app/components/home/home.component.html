@@ -1,0 +1,98 @@
+<section class="w-full h-[calc(100vh-7.5rem)] overflow-y-auto">
+    <div class="flex items-center h-72 justify-between px-12 py-8">
+
+        <div class="flex items-start">
+            <div class="flex flex-col mr-2">
+                <span class="text-7xl font-semibold mb-2">
+                    Crea encuestas
+                </span>
+                <span class="text-sm">
+                    Con NQest - DAW podrás crear encuestas online de una forma simple y segura, <br>
+                    releva los datos de tus clientes o simplemente diviertete
+                </span>
+            </div>
+            <div class="flex flex-col">
+                <span class="text-2xl font-semibold">gratis</span>
+                <span class="text-2xl font-semibold">anónimas</span>
+            </div>
+        </div>
+
+        <button routerLink="/create-form"
+            class="bg-confirm hover:brightness-90 py-6 px-12 mr-12 rounded font-bold text-white shadow-lg cursor-pointer text-xl">CREAR
+            ENCUESTA GRATIS</button>
+
+    </div>
+    <div class="bg-header w-full h-80 flex items-center justify-center mb-56">
+        <div
+            class="mt-64 border-4 rounded-4xl bg-white border-primary px-8 py-12 flex flex-col justify-between mr-12 text-center min-w-72 max-w-72 min-h-96 max-h-96">
+            <span class="text-3xl font-semibold">CREAR</span>
+            <span class="">Crea encuestas de manera simple y gratis</span>
+            <button routerLink="/create-form"
+                class="bg-confirm hover:brightness-90 p-4 rounded font-bold text-white shadow-lg cursor-pointer">CREAR
+                ENCUESTA</button>
+        </div>
+        <div
+            class="mt-64 border-4 rounded-4xl bg-white border-warning px-8 py-12 flex flex-col justify-between mr-12 text-center min-w-72 max-w-72 min-h-96 max-h-96">
+            <span class="text-3xl font-semibold">ADMINISTRAR</span>
+            <span class="">Modifica una encuesta no publicada o consultá el estado de una encuesta publicada</span>
+            <button routerLink="/administration-forms"
+                class="bg-primary hover:brightness-90 p-4 rounded font-bold text-white shadow-lg cursor-pointer">ADMINISTRAR</button>
+        </div>
+        <div
+            class="mt-64 border-4 rounded-4xl bg-white border-confirm px-8 py-12 flex flex-col justify-between mr-12 text-center min-w-72 max-w-72 min-h-96 max-h-96">
+            <span class="text-3xl font-semibold">RESPONDER</span>
+            <span class="">Ingresá el link de la encuesta publicada para contestar</span>
+            <button routerLink="/get-form"
+                class="bg-primary hover:brightness-90 p-4 rounded font-bold text-white shadow-lg cursor-pointer">INGRESAR
+                LINK</button>
+        </div>
+        <div
+            class="mt-64 border-4 rounded-4xl bg-white border-error px-8 py-12 flex flex-col justify-between mr-12 text-center min-w-72 max-w-72 min-h-96 max-h-96">
+            <span class="text-3xl font-semibold">#RANDOM</span>
+            <span class="">Responde una encuesta publicada de forma aleatoria</span>
+            <button (click)="handleGetSurveysByStatus()"
+                class="bg-primary hover:brightness-90 p-4 text-center rounded font-bold text-white shadow-lg cursor-pointer">
+                <span *ngIf="!loading()">Modo #RANDOM</span>
+                <span *ngIf="loading()" class="flex items-center justify-center text-nowrap"><mat-spinner diameter="25"
+                        class="mr-2"></mat-spinner>
+                    Cargando...</span>
+            </button>
+        </div>
+    </div>
+    <div id="about" class="pt-8">
+        <div class="w-full flex justify-between items-center mb-32">
+            <div class="flex flex-col w-auto border-2 border-l-0 rounded-r-[6rem] border-primary py-4 px-12 mr-32">
+                <span class="text-primary text-6xl font-semibold mb-8">01</span>
+                <span class="text-4xl font-semibold mb-16">CREA LA ENCUESTA</span>
+                <span class="mb-32 w-[80%]">Crea la encuesta comenzando por la definición de las preguntas, donde
+                    redactas
+                    cada
+                    enunciado de forma clara. Luego, se elige el tipo de pregunta según la necesidad: puede ser de
+                    opción múltiple con una o varias respuestas, respuesta abierta, verdadero o falso,
+                    sí o no.</span>
+            </div>
+            <img src="/home-page/home-1.png" class="w-96 h-96 mr-32" alt="Paso 1">
+        </div>
+        <div class="w-full flex justify-between items-center mb-32">
+            <img src="/home-page/home-2.png" class="w-96 h-96 ml-32" alt="Paso 2">
+            <div class="flex flex-col w-auto border-2 border-r-0 rounded-l-[6rem] border-primary py-4 px-12 ml-32">
+                <span class="text-warning text-6xl font-semibold mb-8 ml-12">02</span>
+                <span class="text-4xl font-semibold mb-16 ml-12">PUBLICA LA ENCUESTA</span>
+                <span class="mb-32 w-[80%] ml-12">Una vez finalizada la creación, la encuesta debe ser publicada para
+                    que
+                    pueda ser respondida. Al publicarla, el sistema genera un enlace único que puede compartirse con los
+                    destinatarios.</span>
+            </div>
+        </div>
+        <div class="w-full flex justify-between items-center mb-32">
+            <div class="flex flex-col w-auto border-2 border-l-0 rounded-r-[6rem] border-primary py-4 px-12 mr-32">
+                <span class="text-confirm text-6xl font-semibold mb-8">03</span>
+                <span class="text-4xl font-semibold mb-16">ANALIZA LOS RESULTADOS</span>
+                <span class="mb-32 w-[80%]">Visualiza las respuestas recopiladas de forma clara y ordenada. Se pueden
+                    consultar estadísticas generales, respuestas individuales y gráficos que facilitan la interpretación
+                    de los datos, ayudando a tomar decisiones basadas en la información obtenida.</span>
+            </div>
+            <img src="/home-page/home-3.png" class="w-96 h-96 mr-32" alt="Paso 1">
+        </div>
+    </div>
+</section>

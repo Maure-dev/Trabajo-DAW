@@ -1,0 +1,16 @@
+<div class="p-4">
+    <div class="flex items-center justify-center my-8">
+        <h1 class="font-bold text-center">¿Desea descartar los cambios realizados en la
+            encuesta?</h1>
+    </div>
+    <div class="flex flex-col items-center mb-8">
+        <span class="text-center">Esta acción descartará todo cambio realizado en la encuesta. <br>
+            Si lo descartas, no podrás volver a recuperarlo.</span>
+    </div>
+    <div class="flex items-center justify-center gap-8 mb-8">
+        <button (click)="handleCloseDialog()"
+            class="flex items-end w-fit bg-black/40 p-4 rounded text-white shadow-lg cursor-pointer">Cancelar</button>
+        <button (click)="handleCloseDialog(true)"
+            class="flex items-end w-fit bg-error p-4 rounded text-white shadow-lg cursor-pointer">Descartar</button>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="flex items-center justify-between w-full h-30 bg-header py-8 px-4">
+
+  <a routerLink="/" class="bg-header z-50 mt-8 rounded-4xl"><img src="logo.svg" alt="NQest - DAW" width="180"></a>
+
+  <div>
+    <button (click)="goToSection('about')"
+      class="bg-primary hover:brightness-90 py-4 px-12 mr-12 rounded font-bold text-white shadow-lg cursor-pointer">¿CÓMO
+      FUNCIONA?</button>
+  </div>
+</div>
+
+<router-outlet />

@@ -1,0 +1,5 @@
+<div class="flex items-end">
+    <i class="material-symbols-outlined mr-2 text-confirm" *ngIf="data.type === 'SUCCESS'">check_circle</i>
+    <i class="material-symbols-outlined mr-2 text-error" *ngIf="data.type === 'ERROR'">cancel</i>
+    <span>{{data.message}}</span>
+</div>
