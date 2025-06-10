@@ -13,6 +13,6 @@ export class QuestionPublicDto {
   @Type(() => OptionPublicDto)
   options: OptionPublicDto[];
 
-  @Exclude()
+  @Expose()
   id: string;
 }

@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsString, IsDate, ValidateNested, Validate } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, IsDate, IsOptional, ValidateNested, Validate } from 'class-validator';
 import { Type } from 'class-transformer';
 import { QuestionType } from '../enums/question-type.enum';
 import { HasMinimumQuestions } from './validators/has-minimum-questions';
@@ -11,6 +11,10 @@ export class CreateOptionDto {
 }
 
 export class CreateQuestionDto {
+  @IsOptional()
+  @IsString()
+  id?: string;
+
   @IsString()
   @IsNotEmpty()
   text: string;
