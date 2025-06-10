@@ -9,6 +9,7 @@ import { Answer } from '../entities/answer.entity';
 import { SurveyStatus } from '../enums/survey-status.enum';
 import { Survey } from '../entities/survey.entity';
 import { EmailService } from './email.service';
+import { getCurrentFormattedDate } from '../helpers/helpers';
 
 @Injectable()
 export class AnswersService {
@@ -106,7 +107,24 @@ export class AnswersService {
 
     await this.answersRepo.saveAll(answers);
 
-    await this.emailService.sendSurveyConfirmation(email, survey.title);
+    await this.emailService.sendSurveyConfirmation(email, {
+      titleSurvey: survey.title,
+      dateUpdate: getCurrentFormattedDate(),
+      questions: answers.map(answer => {
+        const text = answer.question.text;
+
+        let userAnswer = '';
+        if (answer.text) {
+          userAnswer = answer.text;
+        } else if (answer.selectedOption) {
+          userAnswer = answer.selectedOption.text;
+        } else if (answer.selectedOptions?.length) {
+          userAnswer = answer.selectedOptions.map(opt => opt.text).join(', ');
+        }
+
+        return { text, answer: userAnswer };
+      }),
+    });
 
     return {
       success: true,

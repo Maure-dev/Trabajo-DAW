@@ -3,12 +3,12 @@ services:
     build:
       context: ../back
       dockerfile: Dockerfile
-    command: npm run start:dev
+    command: npm run start:prod
     ports:
       - "3000:3000"
-    volumes:
-      - ../back:/app
-      - /app/node_modules
+    # volumes:
+    #   - ../back:/app
+    #   - /app/node_modules
     environment:
       - NODE_ENV=development
     depends_on:
