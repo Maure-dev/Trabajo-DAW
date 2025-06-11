@@ -37,20 +37,19 @@ GET /surveys/f46e2f3d-7b9d-4c99-98c6-bd2f8b98a3cd
 {
   "id": "f46e2f3d-7b9d-4c99-98c6-bd2f8b98a3cd",
   "title": "Encuesta de satisfacción",
-  "status": "published",
+  "expiresAt": "2025-06-15T23:59:59.000Z",
+  "status": "PUBLISHED",
   "questions": [
     {
-      "id": "1",
       "text": "¿Cómo calificarías nuestro servicio?",
       "type": "SINGLE_CHOICE",
       "options": [
-        { "id": "a", "text": "Bueno" },
-        { "id": "b", "text": "Regular" },
-        { "id": "c", "text": "Malo" }
+        { "text": "Bueno" },
+        { "text": "Regular" },
+        { "text": "Malo" }
       ]
     },
     {
-      "id": "2",
       "text": "¿Comentarios adicionales?",
       "type": "OPEN",
       "options": []
@@ -146,6 +145,7 @@ GET /surveys?status=PUBLISHED
   {
     "id": "abc123",
     "title": "Encuesta de producto",
+    "expiresAt": "2025-06-15T23:59:59.000Z",
     "status": "PUBLISHED",
     "questions": [
       {
@@ -153,8 +153,8 @@ GET /surveys?status=PUBLISHED
         "text": "¿Qué tan útil te pareció el producto?",
         "type": "SINGLE_CHOICE",
         "options": [
-          { "id": "1", "text": "Muy útil" },
-          { "id": "2", "text": "Poco útil" }
+          { "text": "Muy útil" },
+          { "text": "Poco útil" }
         ]
       }
     ]
@@ -162,8 +162,9 @@ GET /surveys?status=PUBLISHED
   {
     "id": "def456",
     "title": "Encuesta de soporte técnico",
+    "expiresAt": "2025-06-15T23:59:59.000Z",
     "status": "PUBLISHED",
-    "questions": []
+    "questions": [...]
   }
 ]
 ```
@@ -389,56 +390,74 @@ PATCH /surveys/f46e2f3d-7b9d-4c99-98c6-bd2f8b98a3cd/status
 
 ---
 
-## 📝 Responder encuesta (`POST /answers`)
+## 📝 Responder encuesta (`POST surveys/answers/:id`)
 
-Permite registrar respuestas a una encuesta publicada. Cada entrada representa la respuesta a una pregunta específica.
+Permite registrar respuestas a una encuesta publicada. Cada entrada de `questions` representa la respuesta a una pregunta específica.
 
 ### 🔗 Endpoint
 
 ```
-POST /answers
+POST surveys/answers/{id}
 Content-Type: application/json
 ```
 
 ### 🔸 Cuerpo (JSON)
 
-Es un array de objetos, donde cada uno contiene:
+| Campo | Tipo | Requerido | Descripción |
+| --- | --- | --- | --- |
+| `title` | string | ✅ | Título identificador de la encuesta respondida. |
+| `email` | string | ✅ | Email del usuario que responde. |
+| `questions` | array | ✅ | Lista de respuestas a preguntas individuales. |
+| `questions[].id` | string (UUID) | ✅ | ID de la pregunta. |
+| `questions[].text` | string | ✅ | Texto de la pregunta. |
+| `questions[].answer` | string o array de strings | ✅ | Respuesta enviada. El tipo depende del tipo de pregunta: |
 
-| Campo | Tipo | Descripción |
-| --- | --- | --- |
-| `questionId` | string (UUID) | ID de la pregunta que se está respondiendo. |
-| `text` | string (opcional) | Texto de respuesta para preguntas abiertas. |
-| `selectedOptionId` | string (UUID) | ID de la opción seleccionada (solo para preguntas de opción única). |
-| `selectedOptionIds` | array de strings | Lista de IDs de opciones seleccionadas (solo para preguntas de opción múltiple). |
+---
 
-> ⚠️ Solo uno de los campos text, selectedOptionId o selectedOptionIds debe ser enviado por respuesta, según el tipo de la pregunta.
+### 🔸 Formato de `answer` según tipo de pregunta
+
+| Tipo de pregunta | Formato esperado en `answer` |
+| --- | --- |
+| `OPEN` (abierta) | `string` con el texto. |
+| `SINGLE_CHOICE` | `string` con el texto de la opción seleccionada. |
+| `MULTIPLE_CHOICE` | `array` de `strings` con los textos de las opciones seleccionadas. |
+
+---
+
+> ⚠️ El campo `answer` **debe ajustarse al tipo de pregunta**.
 > 
+
+
 
 ---
 
 ### ✅ Ejemplo de request
 
 ```json
-[
-  {
-    "questionId": "question-open-id",
-    "text": "Me parece una excelente herramienta."
-  },
-  {
-    "questionId": "question-single-choice-id",
-    "selectedOptionId": "option-a-id"
-  },
-  {
-    "questionId": "question-multiple-choice-id",
-    "selectedOptionIds": [
-      "option-a-id",
-      "option-c-id"
-    ]
-  }
-]
+{
+  "title": "Preferencias de Tecnologías Backend - Edición 2025",
+  "email": "dev.ejemplo@gmail.com",
+  "questions": [
+    {
+      "id": "b94b65da-fc8f-45f9-ba61-f8b4e72e4c51",
+      "text": "¿Cuál es tu lenguaje backend preferido?",
+      "answer": "Python (con Django/Flask)"
+    },
+    {
+      "id": "69c0d8e2-0c14-4326-9b23-ac3db5f31754",
+      "text": "¿Con qué bases de datos has trabajado?",
+      "answer": ["PostgreSQL", "SQLite"]
+    },
+    {
+      "id": "2971bb1f-0a9a-45dd-ad75-8f5eb50510fb",
+      "text": "¿Qué framework backend utilizas más?",
+      "answer": "Django"
+    }
+  ]
+}
 ```
 
 ### ⚠️ Posibles errores
 
-- `400 Bad Request`: Si el formato es inválido, se omite `questionId`, o se combinan campos incorrectamente.
-- `404 Not Found`: Si el `questionId` o alguna de las opciones seleccionadas no existen o no corresponden a la encuesta.
+- `400 Bad Request`: Si el formato es inválido, se omiten, o se combinan campos incorrectamente.
+- `404 Not Found`: Si el id de la encuesta o alguna de las preguntas no existe o no corresponden a la encuesta.

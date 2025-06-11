@@ -13,7 +13,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"title\": \"Backend Technology Preferences\",\n  \"questions\": [\n    {\n      \"text\": \"Which backend language do you prefer?\",\n      \"type\": \"SINGLE_CHOICE\",\n      \"options\": [\n        { \"text\": \"Node.js\" },\n        { \"text\": \"Python\" },\n        { \"text\": \"Java\" }\n      ]\n    },\n    {\n      \"text\": \"What databases have you worked with?\",\n      \"type\": \"MULTIPLE_CHOICE\",\n      \"options\": [\n        { \"text\": \"PostgreSQL\" },\n        { \"text\": \"MongoDB\" },\n        { \"text\": \"MySQL\" }\n      ]\n    },\n    {\n      \"text\": \"Additional comments on backend technologies?\",\n      \"type\": \"OPEN\"\n    }\n  ]\n}",
+          "raw": "{\n  \"title\": \"Backend Technology Preferences\",\n  \"duration\": \"2025-06-15T23:59:59.000Z\",\n  \"questions\": [\n    {\n      \"text\": \"Which backend language do you prefer?\",\n      \"type\": \"SINGLE_CHOICE\",\n      \"options\": [\n        { \"text\": \"Node.js\" },\n        { \"text\": \"Python\" },\n        { \"text\": \"Java\" }\n      ]\n    },\n    {\n      \"text\": \"What databases have you worked with?\",\n      \"type\": \"MULTIPLE_CHOICE\",\n      \"options\": [\n        { \"text\": \"PostgreSQL\" },\n        { \"text\": \"MongoDB\" },\n        { \"text\": \"MySQL\" }\n      ]\n    },\n    {\n      \"text\": \"Additional comments on backend technologies?\",\n      \"type\": \"OPEN\"\n    }\n  ]\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -41,7 +41,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"title\": \"Preferencias de Tecnologías Backend - Edición 2025\",\n  \"questions\": [\n    {\n      \"id\": \"f51df6e7-afce-46f2-8df1-91acb812aaf0\",\n      \"text\": \"¿Cuál es tu lenguaje backend preferido?\",\n      \"type\": \"SINGLE_CHOICE\",\n      \"options\": [\n        {\n          \"id\": \"7977e815-ce6c-48a8-b244-07451cf5f8d3\",\n          \"text\": \"Node.js\"\n        },\n        {\n          \"id\": \"7422019f-b664-4013-b857-63c5ec8057eb\",\n          \"text\": \"Python (con Django/Flask)\"\n        },\n        {\n          \"id\": \"5be1da57-4501-4d85-b6a0-691fddee2b71\",\n          \"text\": \"Go\"\n        },\n        {\n          \"text\": \"C#\"\n        }\n      ]\n    },\n    {\n      \"id\": \"ddca9585-2183-4560-90d7-8388c4560202\",\n      \"text\": \"¿Con qué bases de datos has trabajado?\",\n      \"type\": \"MULTIPLE_CHOICE\",\n      \"options\": [\n        {\n          \"id\": \"42728c28-2ea3-40dd-a7e7-d0b02238e5fc\",\n          \"text\": \"PostgreSQL\"\n        },\n        {\n          \"text\": \"SQLite\"\n        }\n      ]\n    },\n    {\n      \"text\": \"¿Qué framework backend utilizas más?\",\n      \"type\": \"SINGLE_CHOICE\",\n      \"options\": [\n        {\n          \"text\": \"Express.js\"\n        },\n        {\n          \"text\": \"Django\"\n        }\n      ]\n    }\n  ]\n}",
+          "raw": "{\n  \"title\": \"Preferencias de Tecnologías Backend - Edición 2025\",\n  \"duration\": \"2025-06-15T23:59:59.000Z\",\n  \"questions\": [\n    {\n      \"text\": \"¿Cuál es tu lenguaje backend preferido?\",\n      \"type\": \"SINGLE_CHOICE\",\n      \"options\": [\n        {\n          \"text\": \"Node.js\"\n        },\n        {\n          \"text\": \"Python (con Django/Flask)\"\n        },\n        {\n          \"text\": \"Go\"\n        }\n      ]\n    },\n    {\n      \"text\": \"¿Con qué bases de datos has trabajado?\",\n      \"type\": \"MULTIPLE_CHOICE\",\n      \"options\": [\n        {\n          \"text\": \"PostgreSQL\"\n        },\n        {\n          \"text\": \"SQLite\"\n        }\n      ]\n    },\n    {\n      \"text\": \"¿Qué framework backend utilizas más?\",\n      \"type\": \"SINGLE_CHOICE\",\n      \"options\": [\n        {\n          \"text\": \"Express.js\"\n        },\n        {\n          \"text\": \"Django\"\n        }\n      ]\n    }\n  ]\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -49,7 +49,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:3000/surveys/cf5d9f73-d8e4-4846-8aa8-f87e2583695c",
+          "raw": "http://localhost:3000/surveys/e98a8f4f-75eb-4434-8234-11813ca542aa",
           "protocol": "http",
           "host": [
             "localhost"
@@ -57,7 +57,7 @@
           "port": "3000",
           "path": [
             "surveys",
-            "cf5d9f73-d8e4-4846-8aa8-f87e2583695c"
+            "e98a8f4f-75eb-4434-8234-11813ca542aa"
           ]
         }
       },
@@ -81,7 +81,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:3000/surveys/735e4be2-ba6d-481c-be19-81f549a94e55",
+          "raw": "http://localhost:3000/surveys/e98a8f4f-75eb-4434-8234-11813ca542aa",
           "protocol": "http",
           "host": [
             "localhost"
@@ -89,7 +89,7 @@
           "port": "3000",
           "path": [
             "surveys",
-            "735e4be2-ba6d-481c-be19-81f549a94e55"
+            "e98a8f4f-75eb-4434-8234-11813ca542aa"
           ]
         }
       },
@@ -113,7 +113,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:3000/surveys/participate/294c2a3b-30d9-4015-82a7-ffa3985f7592",
+          "raw": "http://localhost:3000/surveys/participate/60ae342a-dcbf-404a-a2d7-84b3e30a0f6c",
           "protocol": "http",
           "host": [
             "localhost"
@@ -122,7 +122,7 @@
           "path": [
             "surveys",
             "participate",
-            "294c2a3b-30d9-4015-82a7-ffa3985f7592"
+            "60ae342a-dcbf-404a-a2d7-84b3e30a0f6c"
           ]
         }
       },
@@ -146,7 +146,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:3000/surveys/results/6ff0a4b5-4ce5-471f-aa53-4d6a6224f684",
+          "raw": "http://localhost:3000/surveys/results/dad84a1d-da23-4006-a04b-d8b886f97d00",
           "protocol": "http",
           "host": [
             "localhost"
@@ -155,7 +155,7 @@
           "path": [
             "surveys",
             "results",
-            "6ff0a4b5-4ce5-471f-aa53-4d6a6224f684"
+            "dad84a1d-da23-4006-a04b-d8b886f97d00"
           ]
         }
       },
@@ -208,7 +208,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:3000/surveys?status=DRAFT",
+          "raw": "http://localhost:3000/surveys?status=PUBLISHED",
           "protocol": "http",
           "host": [
             "localhost"
@@ -220,7 +220,7 @@
           "query": [
             {
               "key": "status",
-              "value": "DRAFT"
+              "value": "PUBLISHED"
             }
           ]
         }
@@ -242,7 +242,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:3000/surveys/213aa6e5-2f5c-4fe5-9b9f-bb8d00e940f5/status",
+          "raw": "http://localhost:3000/surveys/e98a8f4f-75eb-4434-8234-11813ca542aa/status",
           "protocol": "http",
           "host": [
             "localhost"
@@ -250,7 +250,7 @@
           "port": "3000",
           "path": [
             "surveys",
-            "213aa6e5-2f5c-4fe5-9b9f-bb8d00e940f5",
+            "e98a8f4f-75eb-4434-8234-11813ca542aa",
             "status"
           ]
         }
@@ -264,7 +264,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "[\n  {\n    \"questionId\": \"20127f42-1b55-49b8-bb12-15c492030ff8\",\n    \"text\": \"TESTEANDO\" \n  },\n  {\n    \"questionId\": \"5ff9e9e4-2a73-4310-ae24-92a6f3e27dd6\",\n    \"selectedOptionId\": \"292bf0b5-5074-4ead-9abc-81d3491d4529\"\n  },\n  {\n    \"questionId\": \"6799aaa4-2700-4daf-88b1-f37e4c674f74\",\n    \"selectedOptionIds\": [\n      \"6bc8090f-999d-43a7-8146-e1f78c834276\",\n      \"84086ebf-1dfa-46dc-801a-52de95f51374\"\n    ]\n  }\n]\n\n",
+          "raw": "{\n  \"title\": \"Preferencias de Tecnologías Backend - Edición 2025\",\n  \"email\": \"dev.ejemplo@gmail.com\",\n  \"questions\": [\n    {\n      \"id\": \"b94b65da-fc8f-45f9-ba61-f8b4e72e4c51\",\n      \"text\": \"¿Cuál es tu lenguaje backend preferido?\",\n      \"answer\": \"Python (con Django/Flask)\"\n    },\n    {\n      \"id\": \"69c0d8e2-0c14-4326-9b23-ac3db5f31754\",\n      \"text\": \"¿Con qué bases de datos has trabajado?\",\n      \"answer\": [\"PostgreSQL\", \"SQLite\"]\n    },\n    {\n      \"id\": \"2971bb1f-0a9a-45dd-ad75-8f5eb50510fb\",\n      \"text\": \"¿Qué framework backend utilizas más?\",\n      \"answer\": \"Django\"\n    }\n  ]\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -272,14 +272,16 @@
           }
         },
         "url": {
-          "raw": "http://localhost:3000/answers",
+          "raw": "http://localhost:3000/surveys/answers/e98a8f4f-75eb-4434-8234-11813ca542aa",
           "protocol": "http",
           "host": [
             "localhost"
           ],
           "port": "3000",
           "path": [
-            "answers"
+            "surveys",
+            "answers",
+            "e98a8f4f-75eb-4434-8234-11813ca542aa"
           ]
         }
       },
