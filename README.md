@@ -43,11 +43,11 @@ Contiene archivos de configuración como la conexión a la base de datos, variab
 
 #### 2. **/back**
 
-Contiene archivos de  como la conexión a la base de datos, variables de entorno, o cualquier configuración del servidor.
+Contiene el código fuente del backend desarrollado en NestJS, incluyendo módulos de la aplicación, configuración de la base de datos y variables de entorno
 
 #### 3. **/front**
 
-Contiene archivos de la aplicación generada con la tecnología Angular como la conexión a la base de datos, variables de entorno, o cualquier configuración del servidor.
+Contiene el código fuente del frontend desarrollado en Angular, incluyendo componentes, servicios, rutas y configuraciones específicas de Angular y Nginx.
 
 #### 4. **README.md**
 
@@ -62,19 +62,35 @@ Archivo que define qué archivos o carpetas deben ser ignorados por Git (como no
 Este proyecto usa las siguientes librerías:
 
 ### Librerías para el usuario final
+- `@nestjs/common`, `@nestjs/core`, `@nestjs/platform-express`: Núcleo del framework NestJS.
+- `@nestjs/config`: Gestión de variables de entorno.
+- `@nestjs/typeorm` y `typeorm`: ORM para acceso a base de datos.
+- `pg`: Driver de PostgreSQL.
+- `class-validator` y `class-transformer`: Validación y transformación de DTOs.
+- `nodemailer` + `nodemailer-express-handlebars`: Envío de correos con plantillas.
 
 
 ### Librerías de desarrollo
-
+- `@nestjs/cli` y `@nestjs/schematics`: CLI y generadores para NestJS.
+- `typescript`, `ts-node`, `tsconfig-paths`: Entorno TypeScript.
+- `eslint`, `prettier`, `eslint-plugin-prettier`: Linter y formateo automático.
+- `@swc/core`: Compilador alternativo para TypeScript.
 
 ## Dependencias (Front)
 
 Este proyecto usa las siguientes librerías:
 
 ### Librerías para el usuario final
+- `@angular/core`, `@angular/forms`, `@angular/router`: Núcleo del framework Angular.
+- `@angular/material`: Componentes UI preconstruidos.
+- `tailwindcss`: Framework de utilidades CSS.
+- `rxjs`: Manejo de programación reactiva.
 
 
 ### Librerías de desarrollo
+- `@angular/cli`: Herramienta para crear, compilar y testear la app.
+- `@angular-devkit/build-angular`: Build system oficial de Angular.
+- `typescript`: Lenguaje principal del proyecto.
 
 
 ## Instalación y Configuración
@@ -86,30 +102,8 @@ Para instalar y configurar el proyecto, sigue estos pasos:
    ```bash
    git clone https://github.com/Maure-dev/Trabajo-DAW.git
    ```
-
-2. **Instala las dependencias**
-
-   2.1 **Back**
-
-   ```bash
-    cd back 
-   ```
-
-   ```bash
-    npm install
-   ```
-
-   2.2 **Front**
-
-   ```bash
-    cd front 
-   ```
-
-   ```bash
-    npm install
-   ```
    
-3. **Genera las variables de entorno - Back**
+2. **Genera las variables de entorno - Back**
 
    Creá un archivo `.env` en la raíz del proyecto de **back** con las siguientes variables:
 
@@ -120,17 +114,19 @@ Para instalar y configurar el proyecto, sigue estos pasos:
    DATABASE_USER=your-db-user
    DATABASE_PASSWORD=your-db-password
    DATABASE_NAME=encuestas_db
+   EMAIL_USER=your-gmail-address (opcional)
+   EMAIL_PASS=your-gmail-pass    (opcional)
    ```
 
    > Estas variables son utilizadas por el módulo de configuración (`ConfigModule`) y el módulo de conexión a base de datos (`TypeOrmModule`).
 
-4. **Inicia el servidor**
+3. **Iniciar los servicios**
 
    ```bash
    ./deploy.sh start
    ```
 
-5. **Detener el servidor**
+5. **Detener los servicios**
 
    ```bash
    ./deploy.sh stop
@@ -138,7 +134,7 @@ Para instalar y configurar el proyecto, sigue estos pasos:
 
 ## Uso del Proyecto
 
-Una vez iniciado el proyecto, puedes acceder a la página principal en http://localhost:4200/. Si haces cambios en el proyecto, el servidor se reiniciará automáticamente.
+Una vez iniciado el proyecto, puedes acceder a la página principal en http://localhost:80. Si haces cambios en el proyecto, el servidor se reiniciará automáticamente.
 
 ## Licencia
 

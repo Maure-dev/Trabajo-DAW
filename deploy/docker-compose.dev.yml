@@ -3,19 +3,26 @@ services:
     build:
       context: ../back
       dockerfile: Dockerfile
+    command: npm run start:prod
     ports:
       - "3000:3000"
+    # volumes:
+    #   - ../back:/app
+    #   - /app/node_modules
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
     depends_on:
       - db
 
   front-app:
     build:
       context: ../front
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
-      - "80:80"
+      - "4200:4200"
+    volumes:
+      - ../front:/app
+      - /app/node_modules
     depends_on:
       - back-api
 

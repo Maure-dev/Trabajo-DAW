@@ -50,6 +50,8 @@ DATABASE_PORT=5432
 DATABASE_USER=your-db-user
 DATABASE_PASSWORD=your-db-password
 DATABASE_NAME=encuestas_db
+EMAIL_USER=your-gmail-address (opcional)
+EMAIL_PASS=your-gmail-pass    (opcional)
 ```
 
 > Estas variables son utilizadas por el módulo de configuración (`ConfigModule`) y el módulo de conexión a base de datos (`TypeOrmModule`).
@@ -58,16 +60,23 @@ DATABASE_NAME=encuestas_db
 
 ## 🐳 Docker
 
-Podés levantar todo el entorno (API + Base de Datos) usando `docker-compose`:
+Podés levantar todo el entorno (API + Base de Datos) usando el script `deploy.sh`:
 
 ```bash
-docker-compose up --build
+./deploy.sh start --env=back
 ```
 
-Esto levanta:
-- Un contenedor con la API de NestJS en modo desarrollo
-- Un contenedor con PostgreSQL preconfigurado
+Este comando:
 
+- Construye y levanta los contenedores necesarios con `docker-compose`
+- Arranca la API de NestJS en modo desarrollo
+- Inicia un contenedor de PostgreSQL preconfigurado
+
+La API estará disponible en
+
+```bash
+http://localhost:3000
+```
 ---
 
 ## 🚀 Comenzar en Local (sin Docker)
@@ -82,7 +91,7 @@ npm install
 npm run start:dev
 ```
 
-Asegurate de que PostgreSQL esté corriendo localmente y que las variables de entorno estén correctamente configuradas.
+📌 Asegurate de que PostgreSQL esté corriendo localmente y que las variables de entorno estén correctamente configuradas.
 
 ---
 
